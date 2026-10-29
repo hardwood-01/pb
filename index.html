@@ -390,6 +390,49 @@ body[data-view="builder"] #acctBar{margin-left:auto}
   #acctBar{width:100%;justify-content:flex-end}
   .coachtbl .act{white-space:normal}
 }
+
+/* ---- ver 12: view and sort, list view, draft recovery ---- */
+.vctl{display:flex;align-items:center;gap:6px;font-size:14px;color:var(--muted);flex:none}
+.vctl select{border:1px solid var(--line);border-radius:8px;background:var(--bg);padding:8px 10px;font:inherit;font-weight:600;color:var(--ink);cursor:pointer;max-width:240px}
+.lrows{margin-top:18px;border:1px solid var(--line);border-radius:12px;background:var(--panel);overflow:hidden}
+.sgroup .lrows{margin-top:12px}
+.lrow{display:grid;grid-template-columns:minmax(120px,1.2fr) minmax(120px,.9fr) minmax(90px,1fr) 84px 450px;gap:6px 14px;align-items:center;padding:8px 12px;border-top:1px solid var(--line);min-width:0}
+.lrow:first-child{border-top:0}
+.lrow.on{box-shadow:inset 3px 0 0 var(--ink)}
+.lrow.lhd{padding-top:7px;padding-bottom:7px;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);background:var(--bg)}
+.lrow .lname{display:flex;flex-direction:column;gap:3px;min-width:0;align-items:flex-start}
+.lrow .nm{background:none;border:0;padding:0;text-align:left;font:700 19px/1.15 'Barlow Condensed',sans-serif;cursor:pointer;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink)}
+.lrow .nm:hover{text-decoration:underline}
+.lrow .meta{color:var(--muted);font-size:13px;min-width:0}
+.lrow .tagrow{flex:none;padding:0;display:flex;flex-wrap:wrap;gap:4px;min-width:0}
+.lrow .pact{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.lrow .pact .btn{padding:4px 8px;font-size:13px}
+.lrow .pact .btn.arm{color:#DC2626;border-color:#DC2626;font-weight:700}
+.lrow .xmenu{grid-column:1/-1;padding:0;display:flex;gap:6px;justify-content:flex-end}
+@media (max-width:1360px){.lrow{grid-template-columns:minmax(0,1.4fr) minmax(0,1fr) minmax(0,1fr) 84px}.lrow.lhd span:last-child{display:none}.lrow .pact{grid-column:1/-1;justify-content:flex-start}}
+@media (max-width:760px){.lrow{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.lrow.lhd{display:none}}
+@media (max-width:520px){.lrow{grid-template-columns:minmax(0,1fr)}}
+#draftDlg .shbody{padding:4px 18px 18px}
+#draftDlg .dact{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+
+/* ---- ver 13 ---- */
+body[data-view="builder"] .across{margin-left:0}
+body[data-view="sessions"] #acctBar,body[data-view="session"] #acctBar{margin-left:auto}
+.vtog{display:inline-flex;flex:none;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--bg)}
+.vtog button{border:0;background:transparent;padding:7px 11px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--muted)}
+.vtog button+button{border-left:1px solid var(--line)}
+.vtog button:hover{color:var(--ink)}
+.vtog button[aria-pressed="true"]{background:var(--ink);color:var(--panel)}
+.vtog svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.eqb{width:30px;height:30px;border-radius:6px;border:1px solid var(--line);background:transparent;color:var(--muted);font:700 15px/1 'Barlow Condensed','Arial Narrow',sans-serif;cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center}
+.eqb:hover{border-color:var(--ink);color:var(--ink)}
+.eqb svg{width:20px;height:20px}
+.roster+.roster{margin-top:5px}
+.eqb.c{color:#2563EB;border-color:#93B4F5}
+.eqb.c:hover{border-color:#2563EB}
+@media (min-width:861px) and (max-height:900px){.side .tools .roster+.roster{margin-top:3px}.side .tools .eqb{width:26px;height:26px;font-size:14px}.side .tools .eqb svg{width:18px;height:18px}}
+@media (min-width:861px) and (max-height:690px){.side .tools .roster+.roster{margin-top:2px}.side .tools .eqb{width:28px;height:22px;font-size:13px}.side .tools .eqb svg{width:16px;height:16px}}
+@media (min-width:861px) and (max-height:540px){.side .tools .eqb{height:19px}.side .tools .eqb svg{width:14px;height:14px}}
 </style>
 </head>
 <body data-tool="move" data-view="builder">
@@ -429,6 +472,7 @@ body[data-view="builder"] #acctBar{margin-left:auto}
       <button class="tool" data-tool="circle" title="Ball: mark the ball handler (B)"><svg viewBox="0 0 30 18" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="15" cy="9" r="7.5"/><text x="15" y="12.6" text-anchor="middle" font-size="10" font-weight="700" fill="currentColor" stroke="none" font-family="Barlow Condensed, Arial Narrow, sans-serif">1</text></svg>Ball</button>
       <div class="sep"></div>
       <div class="roster" role="group" aria-label="Players on court"><button class="pl" data-n="1" data-k="O" title="Player 1">1</button><button class="pl x" data-n="1" data-k="X" title="Defender X1">X1</button><button class="pl" data-n="2" data-k="O" title="Player 2">2</button><button class="pl x" data-n="2" data-k="X" title="Defender X2">X2</button><button class="pl" data-n="3" data-k="O" title="Player 3">3</button><button class="pl x" data-n="3" data-k="X" title="Defender X3">X3</button><button class="pl" data-n="4" data-k="O" title="Player 4">4</button><button class="pl x" data-n="4" data-k="X" title="Defender X4">X4</button><button class="pl" data-n="5" data-k="O" title="Player 5">5</button><button class="pl x" data-n="5" data-k="X" title="Defender X5">X5</button></div>
+      <div class="roster" role="group" aria-label="Cone and coach"><button class="eqb" data-k="cone" title="Training cone: press for each cone you need, then drag it into place. Use Erase or Delete to remove one."><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 L18 18 H6 Z" fill="#F97316" stroke="#9A3412" stroke-width="1.3" stroke-linejoin="round"/><path d="M9.4 11 H14.6" stroke="#fff" stroke-width="1.8"/><path d="M3.5 20.5 H20.5" stroke="#9A3412" stroke-width="2"/></svg></button><button class="eqb c" data-k="C" title="C: coach marker. Press to add, then drag it into place. Use Erase or Delete to remove it.">C</button></div>
       <div class="sep"></div>
       <button class="tool act" id="undo" title="Undo (Ctrl+Z)"><svg viewBox="0 0 30 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4 L5 8 L9 12"/><path d="M5 8 H18 A5 5 0 0 1 18 18"/></svg>Undo</button>
       <button class="tool act" id="redo" title="Redo (Ctrl+Shift+Z)"><svg viewBox="0 0 30 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 4 L25 8 L21 12"/><path d="M25 8 H12 A5 5 0 0 0 12 18"/></svg>Redo</button>
@@ -493,23 +537,25 @@ body[data-view="builder"] #acctBar{margin-left:auto}
       <h1>Play Library</h1>
       <div class="toolbar">
         <input id="libSearch" class="field" type="search" placeholder="Search plays by name or tag" aria-label="Search plays by name or tag" autocomplete="off" maxlength="60">
+        <span class="vtog" role="group" aria-label="View as tiles or list"><button type="button" data-vs="play" data-k="view" data-v="tiles" aria-pressed="true" title="Tiles, with pictures" aria-label="Tiles"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1.2"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.2"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.2"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.2"/></svg></button><button type="button" data-vs="play" data-k="view" data-v="list" aria-pressed="false" title="List, compact" aria-label="List"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h12M9 12h12M9 18h12"/><circle cx="4.5" cy="6" r="1.1"/><circle cx="4.5" cy="12" r="1.1"/><circle cx="4.5" cy="18" r="1.1"/></svg></button></span><label class="vctl"><span>Sort by</span><select data-vs="play" data-k="sort" aria-label="Sort by"><option value="order">My order</option><option value="name-asc">Name A–Z</option><option value="name-desc">Name Z–A</option><option value="tag-asc">Tag A–Z</option><option value="tag-desc">Tag Z–A</option><option value="saved-new">Date saved, newest first</option><option value="saved-old">Date saved, oldest first</option></select></label>
         <button class="btn importBtn" data-scope="play" title="Add plays from a Playboard file. Drills and playbooks in the file are left alone.">Import file…</button>
         <button id="expLib" class="btn" title="Download every play in the Play Library as a backup file">Export this library</button>
       </div>
       <div id="tagBar"></div>
       <div id="library" data-kind="play"></div>
-      <p class="small">Saved plays are kept online in your account, so they are the same on every device you sign in on. Click a play to open it in the Builder. Use Save as Play under the frame description in the Builder to save or update one; its tags save straight away. Search by name or tag, or click a tag above the list to filter. Import file… adds only plays. Share Online sends a copy straight to another approved coach. Share File sends a play as a file they load with Import file…. Copy as Drill saves a copy in the Drill Library and leaves the play here.</p>
+      <p class="small">Saved plays are kept online in your account, so they are the same on every device you sign in on. Click a play to open it in the Builder. Use Save as Play under the frame description in the Builder to save or update one; its tags save straight away. Search by name or tag, or click a tag above the list to filter. Import file… adds only plays. Share Online sends a copy straight to another approved coach. Download File saves a play as a Playboard file (or a PDF). Send the file to another coach, who loads it with Import file…. Copy as Drill saves a copy in the Drill Library and leaves the play here. Use the two View buttons beside the search box (pictures or list) to switch between tiles and a compact list, and Sort by to reorder (your choice is remembered on this device).</p>
     </div></section>
     <section class="page" id="viewDrills" hidden aria-label="Drill Library"><div class="inner">
       <h1>Drill Library</h1>
       <div class="toolbar">
         <input id="drillSearch" class="field" type="search" placeholder="Search drills by name or tag" aria-label="Search drills by name or tag" autocomplete="off" maxlength="60">
+        <span class="vtog" role="group" aria-label="View as tiles or list"><button type="button" data-vs="drill" data-k="view" data-v="tiles" aria-pressed="true" title="Tiles, with pictures" aria-label="Tiles"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1.2"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.2"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.2"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.2"/></svg></button><button type="button" data-vs="drill" data-k="view" data-v="list" aria-pressed="false" title="List, compact" aria-label="List"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h12M9 12h12M9 18h12"/><circle cx="4.5" cy="6" r="1.1"/><circle cx="4.5" cy="12" r="1.1"/><circle cx="4.5" cy="18" r="1.1"/></svg></button></span><label class="vctl"><span>Sort by</span><select data-vs="drill" data-k="sort" aria-label="Sort by"><option value="order">My order</option><option value="name-asc">Name A–Z</option><option value="name-desc">Name Z–A</option><option value="tag-asc">Tag A–Z</option><option value="tag-desc">Tag Z–A</option><option value="saved-new">Date saved, newest first</option><option value="saved-old">Date saved, oldest first</option></select></label>
         <button class="btn importBtn" data-scope="drill" title="Add drills from a Playboard file. Plays and playbooks in the file are left alone.">Import file…</button>
         <button id="expDrills" class="btn" title="Download every drill in the Drill Library as a backup file">Export this library</button>
       </div>
       <div id="drillTagBar"></div>
       <div id="drillLibrary" data-kind="drill"></div>
-      <p class="small">Draw a drill in the Builder, then press Save as Drill under the frame description. A drawing is kept in one library only, so saving a drill as a play (or the reverse) moves it. Drills are not used in playbooks. Import file… adds only drills. Share Online sends a copy straight to another approved coach. Share File sends a drill as a file they load with Import file…. Copy as Play saves a copy in the Play Library and leaves the drill here.</p>
+      <p class="small">Draw a drill in the Builder, then press Save as Drill under the frame description. A drawing is kept in one library only, so saving a drill as a play (or the reverse) moves it. Drills are not used in playbooks. Import file… adds only drills. Share Online sends a copy straight to another approved coach. Download File saves a drill as a Playboard file (or a PDF). Send the file to another coach, who loads it with Import file…. Copy as Play saves a copy in the Play Library and leaves the drill here. Use the two View buttons beside the search box (pictures or list) to switch between tiles and a compact list, and Sort by to reorder (your choice is remembered on this device).</p>
     </div></section>
     <section class="page" id="viewBooks" hidden aria-label="Playbooks"><div class="inner">
       <h1>Playbooks</h1>
@@ -527,12 +573,13 @@ body[data-view="builder"] #acctBar{margin-left:auto}
     <section class="page" id="viewSessions" hidden aria-label="Training Plans"><div class="inner">
       <h1>Training Plans</h1>
       <div class="toolbar">
-        <input id="spSearch" class="field" type="search" placeholder="Search by team, competition or date" aria-label="Search training plans" autocomplete="off" maxlength="60">
+        <input id="spSearch" class="field" type="search" placeholder="Search team, competition, date" aria-label="Search training plans" autocomplete="off" maxlength="60">
+        <span class="vtog" role="group" aria-label="View as tiles or list"><button type="button" data-vs="session" data-k="view" data-v="tiles" aria-pressed="true" title="Tiles, with pictures" aria-label="Tiles"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1.2"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.2"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.2"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.2"/></svg></button><button type="button" data-vs="session" data-k="view" data-v="list" aria-pressed="false" title="List, compact" aria-label="List"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h12M9 12h12M9 18h12"/><circle cx="4.5" cy="6" r="1.1"/><circle cx="4.5" cy="12" r="1.1"/><circle cx="4.5" cy="18" r="1.1"/></svg></button></span><label class="vctl"><span>Sort by</span><select data-vs="session" data-k="sort" aria-label="Sort by"><option value="date-asc">Plan date, oldest first</option><option value="date-desc">Plan date, newest first</option><option value="num-asc">Session number</option><option value="name-asc">Team A–Z</option><option value="name-desc">Team Z–A</option><option value="saved-new">Date saved, newest first</option><option value="saved-old">Date saved, oldest first</option></select></label>
         <button class="btn importBtn" data-scope="session" title="Add training plans from a Playboard file. Plays, drills and playbooks in the file are left alone.">Import file…</button>
         <button id="expSessions" class="btn" title="Download every training plan as a backup file">Export all Training Plans</button>
       </div>
       <div id="sessionList"></div>
-      <p class="small">Session plans saved from the Training Plan Builder appear here, grouped by team and competition. Open one to keep editing it. Combined PDF puts every session in a group into one document with a cover page (team, competition and logo) in date order. Import file… adds only training plans. Share Online sends a copy straight to another approved coach. Share File sends a training plan as a file they load with Import file….</p>
+      <p class="small">Session plans saved from the Training Plan Builder appear here, grouped by team and competition. Open one to keep editing it. Combined PDF puts every session in a group into one document with a cover page (team, competition and logo) in date order. Import file… adds only training plans. Share Online sends a copy straight to another approved coach. Download File saves a training plan as a Playboard file (or a PDF). Send the file to another coach, who loads it with Import file…. Use the two View buttons beside the search box (pictures or list) to switch between tiles and a compact list, and Sort by to reorder the plans inside each group (your choice is remembered on this device).</p>
     </div></section>
     <section class="page" id="viewBackup" hidden aria-label="Backup"><div class="inner">
       <h1>Backup</h1>
@@ -540,7 +587,7 @@ body[data-view="builder"] #acctBar{margin-left:auto}
         <button id="expAll" class="btn primary">Export everything</button>
         <button class="btn importBtn" data-scope="all" title="Add everything from a Playboard backup file: plays, drills, training plans and playbooks">Import a backup file…</button>
       </div>
-      <p class="small">Export everything downloads a .json file you can keep or email. Import a backup file… puts everything in such a file into your account in one go (plays, drills, training plans, then playbooks). You can also use Import file… in each section, and each of those buttons only imports its own section. Import adds to what you already have and never overwrites a play or drill that differs; it adds a copy instead. Session plans have their own Import file… under Training Plans. The Export… and Backup buttons on each play, drill, playbook or training plan export just that one.</p>
+      <p class="small">Export everything downloads a .json file you can keep or email. Import a backup file… puts everything in such a file into your account in one go (plays, drills, training plans, then playbooks). You can also use Import file… in each section, and each of those buttons only imports its own section. Import adds to what you already have and never overwrites a play or drill that differs; it adds a copy instead. Session plans have their own Import file… under Training Plans. The Export… and Backup buttons on each play, drill, playbook or training plan export just that one. While you work, Playboard keeps a draft of anything you have not saved yet (the drawing in the Builder and the Training Plan Builder) in this browser about every 30 seconds. If the page closes or something goes wrong, you are offered Restore draft or Discard draft the next time you sign in. Signing out clears the drafts.</p>
     </div></section>
 
     <section class="page" id="viewCoaches" hidden aria-label="Coaches"><div class="inner">
@@ -607,6 +654,15 @@ body[data-view="builder"] #acctBar{margin-left:auto}
       <p id="shMsg" class="gmsg" role="status"></p>
       <button id="shSend" class="btn primary" type="submit">Send</button>
     </form>
+  </div>
+</div>
+<div id="draftDlg" class="overlay" hidden>
+  <div class="bcard" role="dialog" aria-modal="true" aria-labelledby="drTitle" style="width:min(460px,100%)">
+    <div class="bhead"><h2 id="drTitle" style="margin:0;flex:1">Unsaved work found</h2></div>
+    <div class="shbody">
+      <p class="small" id="drText"></p>
+      <div class="dact"><button id="drRestore" class="btn primary" type="button">Restore draft</button><button id="drDiscard" class="btn" type="button">Discard draft</button></div>
+    </div>
   </div>
 </div>
 <div id="gate"><div class="gcard" id="gateCard"><h1>Playboard</h1><p class="small">Loading…</p><noscript><p>Playboard needs JavaScript switched on.</p></noscript></div></div>
@@ -1827,7 +1883,7 @@ function trimEnd(pts,len){ let rem=len; const o=pts.slice(); while(o.length>1){ 
 function trimStart(pts,len){ return polyLen(pts) > len + .5 ? trimEnd(pts.slice().reverse(), len).reverse() : pts; }
 function pointAt(pts,t){ if(pts.length===1) return pts[0]; const L=polyLen(pts); if(L<1e-6) return pts[0]; let r=t*L; for(let i=1;i<pts.length;i++){ const d=dist(pts[i-1],pts[i]); if(r<=d){ const u=d?r/d:0; return [pts[i-1][0]+(pts[i][0]-pts[i-1][0])*u, pts[i-1][1]+(pts[i][1]-pts[i-1][1])*u]; } r-=d; } return pts[pts.length-1]; }
 const pathD = pts => 'M' + pts.map(p => f(p[0])+' '+f(p[1])).join(' L');
-function nearestTok(tokens,x,y,max){ let best=null, bd=max; for(const t of tokens){ if(t.kind==='ball') continue; const d=Math.hypot(t.x-x,t.y-y); if(d<bd){bd=d; best=t;} } return best; }
+function nearestTok(tokens,x,y,max){ let best=null, bd=max; for(const t of tokens){ if(t.kind==='ball' || t.kind==='cone' || t.kind==='C') continue; const d=Math.hypot(t.x-x,t.y-y); if(d<bd){bd=d; best=t;} } return best; }
 
 /* ---------- court ---------- */
 function courtMarkup(full){
@@ -1941,6 +1997,8 @@ function tokenMarkup(t,x,y,hasBall){
   const ring = sel && sel.kind === 'tok' && sel.id === t.id ? `<circle r="${t.kind === 'ball' ? 1.4 : 2.3}" fill="none" stroke="#2563EB" stroke-width=".18" stroke-dasharray=".6 .4"/>` : '';
   if (t.kind === 'O') return `<g class="tok" data-id="${t.id}" ${tr}>${ring}<circle r="1.6" fill="transparent"/>${hasBall ? '<circle r="1.55" fill="none" stroke="#171717" stroke-width=".22"/>' : ''}<text text-anchor="middle" y=".78" font-size="2.2" fill="#171717">${t.label}</text></g>`;
   if (t.kind === 'X') return `<g class="tok" data-id="${t.id}" ${tr}>${ring}<circle r="1.7" fill="transparent"/><path d="M-.7 -.7 L.7 .7 M.7 -.7 L-.7 .7" stroke="#DC2626" stroke-width=".36" stroke-linecap="round"/><text x=".85" y="1.65" font-size="1.55" fill="#DC2626">${t.label}</text></g>`;
+  if (t.kind === 'cone') return `<g class="tok" data-id="${t.id}" ${tr}>${ring}<circle r="1.6" fill="transparent"/><path d="M0 -1.35 L1.05 1.05 H-1.05 Z" fill="#F97316" stroke="#9A3412" stroke-width=".13" stroke-linejoin="round"/><path d="M-.42 .05 H.42" stroke="#fff" stroke-width=".3"/><path d="M-1.35 1.25 H1.35" stroke="#9A3412" stroke-width=".32" stroke-linecap="round"/></g>`;
+  if (t.kind === 'C') return `<g class="tok" data-id="${t.id}" ${tr}>${ring}<circle r="1.6" fill="#fff" stroke="#2563EB" stroke-width=".28"/><text text-anchor="middle" y=".78" font-size="2.2" font-weight="700" fill="#2563EB">C</text></g>`;
   return `<g class="tok" data-id="${t.id}" ${tr}>${ring}<circle r=".82" fill="#F97316" stroke="#9A3412" stroke-width=".1"/><path d="M-.82 0 H.82 M0 -.82 V.82 M-.55 -.6 Q-.2 0 -.55 .6 M.55 -.6 Q.2 0 .55 .6" fill="none" stroke="#9A3412" stroke-width=".08"/></g>`;
 }
 function holderOf(tokens, pos, thr){
@@ -1951,7 +2009,7 @@ function holderOf(tokens, pos, thr){
   return best;
 }
 function renderTokens(tokens, pos){
-  const order = {X:0, O:1, ball:2}, h = holderOf(tokens, pos, pos ? .4 : 2.6);
+  const order = {cone:-2, X:0, O:1, C:1.5, ball:2}, h = holderOf(tokens, pos, pos ? .4 : 2.6);
   $('#tokens').innerHTML = tokens.slice().sort((a,b) => order[a.kind]-order[b.kind])
     .filter(t => !(t.kind === 'ball' && (h || !pos)))
     .map(t => { const p = pos && pos[t.id]; return tokenMarkup(t, p ? p[0] : undefined, p ? p[1] : undefined, h && h.id === t.id); }).join('');
@@ -1981,7 +2039,7 @@ function frameSVG(s, court){
   court = court || play.court;
   const keep = sel; sel = null;
   const lines = s.lines.map((l,i) => lineMarkup(l, i, s.tokens)).join('');
-  const h = holderOf(s.tokens, null, 2.6), order = {X:0, O:1};
+  const h = holderOf(s.tokens, null, 2.6), order = {cone:-2, X:0, O:1, C:1.5};
   const toks = s.tokens.filter(t => t.kind !== 'ball').sort((a,b) => order[a.kind]-order[b.kind]).map(t => tokenMarkup(t, undefined, undefined, h && h.id === t.id)).join('');
   sel = keep;
   return `<svg class="thumb" viewBox="-2.5 -2.5 55 ${(court === 'full' ? 94 : 47)+5}" aria-hidden="true">${courtMarkup(court === 'full')}${lines}${toks}</svg>`;
@@ -2075,6 +2133,86 @@ function parseTags(str){
   String(str).split(',').forEach(x => { const t = x.trim().replace(/\s+/g, ' ').slice(0, 24); if (t && !seen.has(tagKey(t))){ seen.add(tagKey(t)); out.push(t); } });
   return out.slice(0, 12);
 }
+
+/* ---------- tile / list view and sorting (ver 12) ---------- */
+let TIMES = new Map(); // when each saved item was last written to the cloud (key like play_ab12)
+const savedAt = (kind, p) => TIMES.get(kind + '_' + p.id) || Date.now();
+const VS_OK = {view: ['tiles', 'list'], sort: {play: ['order', 'name-asc', 'name-desc', 'tag-asc', 'tag-desc', 'saved-new', 'saved-old'], drill: ['order', 'name-asc', 'name-desc', 'tag-asc', 'tag-desc', 'saved-new', 'saved-old'], session: ['date-asc', 'date-desc', 'num-asc', 'name-asc', 'name-desc', 'saved-new', 'saved-old']}};
+const VS = {play: {view: 'tiles', sort: 'order'}, drill: {view: 'tiles', sort: 'order'}, session: {view: 'tiles', sort: 'date-asc'}};
+try {
+  const raw = JSON.parse(localStorage.getItem('playboard-views') || '{}');
+  for (const k of Object.keys(VS)){
+    const r = raw && raw[k]; if (!r) continue;
+    if (VS_OK.view.includes(r.view)) VS[k].view = r.view;
+    if (VS_OK.sort[k].includes(r.sort)) VS[k].sort = r.sort;
+  }
+} catch(e){}
+const saveVS = () => { try { localStorage.setItem('playboard-views', JSON.stringify(VS)); } catch(e){} };
+function syncVS(){
+  document.querySelectorAll('select[data-vs]').forEach(sl => { sl.value = VS[sl.dataset.vs][sl.dataset.k]; });
+  document.querySelectorAll('button[data-vs]').forEach(b => b.setAttribute('aria-pressed', String(VS[b.dataset.vs][b.dataset.k] === b.dataset.v)));
+}
+syncVS();
+const cmpText = (a, b) => String(a).localeCompare(String(b), undefined, {numeric: true, sensitivity: 'base'});
+const fmtSaved = t => { try { return new Date(t).toLocaleDateString('en-AU', {day: 'numeric', month: 'short', year: 'numeric'}); } catch(e){ return ''; } };
+function sortItems(kind, arr){
+  const mode = VS[kind].sort, a = arr.slice(), nm = p => p.name || '';
+  const firstTag = p => (p.tags || []).map(t => String(t).toLowerCase()).sort()[0];
+  if (mode === 'name-asc') a.sort((x, y) => cmpText(nm(x), nm(y)));
+  else if (mode === 'name-desc') a.sort((x, y) => cmpText(nm(y), nm(x)));
+  else if (mode === 'tag-asc' || mode === 'tag-desc'){
+    const d = mode === 'tag-asc' ? 1 : -1;
+    a.sort((x, y) => { const tx = firstTag(x), ty = firstTag(y); if (!tx !== !ty) return tx ? -1 : 1; return (tx ? d * cmpText(tx, ty) : 0) || cmpText(nm(x), nm(y)); });
+  }
+  else if (mode === 'saved-new') a.sort((x, y) => savedAt(kind, y) - savedAt(kind, x) || cmpText(nm(x), nm(y)));
+  else if (mode === 'saved-old') a.sort((x, y) => savedAt(kind, x) - savedAt(kind, y) || cmpText(nm(x), nm(y)));
+  return a;
+}
+function sortSessions(arr){
+  const mode = VS.session.sort, a = arr.slice();
+  const dated = (x, y, dir) => { if (!x.date !== !y.date) return x.date ? -1 : 1; return dir * (x.date || '').localeCompare(y.date || '') || ((+x.session || 9999) - (+y.session || 9999)); };
+  if (mode === 'date-desc') a.sort((x, y) => dated(x, y, -1));
+  else if (mode === 'num-asc') a.sort((x, y) => ((+x.session || 9999) - (+y.session || 9999)) || sessOrder(x, y));
+  else if (mode === 'saved-new') a.sort((x, y) => savedAt('session', y) - savedAt('session', x) || sessOrder(x, y));
+  else if (mode === 'saved-old') a.sort((x, y) => savedAt('session', x) - savedAt('session', y) || sessOrder(x, y));
+  else a.sort(sessOrder);
+  return a;
+}
+let dmenu = null; // the open Download File menu (an item id)
+const dlMenu = (id, name) => `<span class="xmenu" role="group" aria-label="Download ${esc(name)}"><button class="btn" data-share="${id}" title="A Playboard file another coach loads with Import file…">Playboard file</button><button class="btn" data-xp="${id}" title="Opens the print window. Choose Save as PDF there.">PDF</button></span>`;
+const sdlMenu = id => `<span class="xmenu" role="group" aria-label="Download training plan"><button class="btn" data-sshare="${id}" title="A Playboard file another coach loads with Import file…">Playboard file</button><button class="btn" data-spdf="${id}" title="Opens the print window. Choose Save as PDF there.">PDF</button></span>`;
+function libActsHTML(kind, p){
+  const K = KINDS[kind], a = armed === 'p' + p.id;
+  return `<button class="btn" data-shareon="${p.id}" title="Send a copy of this ${K.noun} to another approved coach">Share Online</button><button class="btn" data-dl="${p.id}" aria-expanded="${dmenu === p.id}" title="Save this ${K.noun} as a Playboard file to send to another coach, or as a PDF">Download File</button><button class="btn" data-xm="${p.id}" aria-expanded="${xmenu === p.id}" aria-label="Export ${esc(p.name)}" title="Export this ${K.noun} as PDF, JPG or a backup file">Export…</button><button class="btn" data-copy="${p.id}" title="Save a copy in the ${kind === 'play' ? 'Drill' : 'Play'} Library. The original stays here.">${kind === 'play' ? 'Copy as Drill' : 'Copy as Play'}</button><button class="btn${a ? ' arm' : ''}" data-del="${p.id}" aria-label="Delete ${esc(p.name)}" title="${a ? 'Click again to delete' : 'Delete from library'}">${a ? 'Delete?' : 'Delete'}</button>`;
+}
+function listHTML(kind, shown){
+  return `<div class="lrows" role="list"><div class="lrow lhd" aria-hidden="true"><span>Name</span><span>Details</span><span>Tags</span><span>Saved</span><span></span></div>${shown.map(p => {
+    const used = kind === 'play' ? books.filter(b => b.sections.some(s => s.playIds.includes(p.id))).length : 0;
+    return `<div class="lrow${p.id === play.id ? ' on' : ''}" role="listitem"><div class="lname"><button class="nm" data-open="${p.id}" title="Open ${esc(p.name)}">${esc(p.name)}</button>${p.sharedFrom ? sharedMark(p.sharedFrom) : ''}</div>
+      <span class="meta">${p.steps.length} frame${p.steps.length === 1 ? '' : 's'}${p.court === 'full' ? ' · full court' : ' · half court'}${used ? ` · in ${used} playbook${used > 1 ? 's' : ''}` : ''}</span>
+      <span class="tagrow">${(p.tags || []).map(t => `<span class="tagchip">${esc(t)}</span>`).join('')}</span>
+      <span class="meta">${esc(fmtSaved(savedAt(kind, p)))}</span>
+      <div class="pact">${libActsHTML(kind, p)}</div>
+      ${xmenu === p.id ? `<span class="xmenu" role="group" aria-label="Export ${esc(p.name)}"><button class="btn" data-xp="${p.id}" title="Print or save as PDF">PDF</button><button class="btn" data-xj="${p.id}" title="Save as a JPG image">JPG</button><button class="btn" data-exp="${p.id}" title="Backup file you can import into Playboard on another computer">Backup</button></span>` : ''}${dmenu === p.id ? dlMenu(p.id, p.name) : ''}</div>`;
+  }).join('')}</div>`;
+}
+function sessRows(g){
+  return `<div class="lrows" role="list"><div class="lrow lhd" aria-hidden="true"><span>Plan</span><span>Date and time</span><span>Content</span><span>Saved</span><span></span></div>${g.map(s => {
+    const a = armed === 'ss' + s.id, n = sessDrills(s).length, m = sessMins(s);
+    return `<div class="lrow" role="listitem"><div class="lname"><button class="nm" data-sopen="${s.id}" title="Open in the builder">${esc(sessTitle(s))}</button>${s.sharedFrom ? sharedMark(s.sharedFrom) : ''}</div>
+      <span class="meta">${esc(fmtDate(s.date) || 'No date')}${s.start ? ' · ' + esc(fmtClock(s.start)) : ''}</span>
+      <span class="meta">${plural(n, 'drill')}${m ? ' · ' + m + ' min' : ''}</span>
+      <span class="meta">${esc(fmtSaved(savedAt('session', s)))}</span>
+      <div class="pact"><button class="btn" data-sopen="${s.id}">Open</button><button class="btn" data-sshareon="${s.id}" title="Send a copy of this training plan to another approved coach">Share Online</button><button class="btn" data-sdl="${s.id}" aria-expanded="${dmenu === s.id}" title="Save this training plan as a Playboard file to send to another coach, or as a PDF">Download File</button><button class="btn" data-spdf="${s.id}" title="Save as PDF">PDF</button><button class="btn" data-sexp="${s.id}" title="Backup file for this training plan">Backup</button><button class="btn${a ? ' arm' : ''}" data-sdel="${s.id}" aria-label="Delete ${esc(sessTitle(s))}">${a ? 'Delete?' : 'Delete'}</button></div>${dmenu === s.id ? sdlMenu(s.id) : ''}</div>`;
+  }).join('')}</div>`;
+}
+function setVS(k, f, v){
+  if (!VS[k] || !(f === 'view' ? VS_OK.view : VS_OK.sort[k]).includes(v)) return;
+  VS[k][f] = v; saveVS(); syncVS();
+  if (k === 'session') renderSessions(); else renderOne(k);
+}
+document.addEventListener('change', e => { const sl = e.target.closest && e.target.closest('select[data-vs]'); if (sl) setVS(sl.dataset.vs, sl.dataset.k, sl.value); });
+document.addEventListener('click', e => { const b = e.target.closest && e.target.closest('button[data-vs]'); if (b) setVS(b.dataset.vs, b.dataset.k, b.dataset.v); });
 const KINDS = {
   play:  {arr: () => lib,    list: '#library',      bar: '#tagBar',      search: '#libSearch',   noun: 'play',  empty: 'No saved plays yet. Draw a play, then press Save as Play.'},
   drill: {arr: () => drills, list: '#drillLibrary', bar: '#drillTagBar', search: '#drillSearch', noun: 'drill', empty: 'No saved drills yet. Draw a drill, then press Save as Drill.'}
@@ -2083,19 +2221,19 @@ function renderOne(kind){
   const K = KINDS[kind], f = F[kind], items = K.arr(), tags = allTags(items);
   if (f.tag && !tags.some(t => tagKey(t) === f.tag)) f.tag = null;
   $(K.bar).innerHTML = tags.length ? `<div class="tagbar" role="group" aria-label="Filter by tag"><button class="tagf" data-tf="" aria-pressed="${!f.tag}">All</button>${tags.map(t => `<button class="tagf" data-tf="${esc(tagKey(t))}" aria-pressed="${f.tag === tagKey(t)}">${esc(t)}</button>`).join('')}</div>` : '';
-  const shown = items.filter(p => (!f.tag || hasTag(p, f.tag)) && matchQ(p, f.q));
-  $(K.list).innerHTML = shown.length ? `<div class="cards">${shown.map(p => {
+  const shown = sortItems(kind, items.filter(p => (!f.tag || hasTag(p, f.tag)) && matchQ(p, f.q)));
+  $(K.list).innerHTML = shown.length ? (VS[kind].view === 'list' ? listHTML(kind, shown) : `<div class="cards">${shown.map(p => {
     const used = kind === 'play' ? books.filter(b => b.sections.some(s => s.playIds.includes(p.id))).length : 0, a = armed === 'p' + p.id;
     return `<article class="pcard${p.id === play.id ? ' on' : ''}"><button class="thumbBtn" data-open="${p.id}" tabindex="-1" aria-hidden="true" title="Open ${esc(p.name)}">${frameSVG(p.steps[0], p.court)}</button>
       <div class="pbody"><button class="nm" data-open="${p.id}" title="Open ${esc(p.name)}">${esc(p.name)}</button>
       <span class="meta">${p.steps.length} frame${p.steps.length === 1 ? '' : 's'}${p.court === 'full' ? ' · full court' : ' · half court'}${used ? ` · in ${used} playbook${used > 1 ? 's' : ''}` : ''}</span>
       ${p.sharedFrom ? sharedMark(p.sharedFrom) : ''}
       ${(p.tags || []).length ? `<span class="tagrow">${p.tags.map(t => `<span class="tagchip">${esc(t)}</span>`).join('')}</span>` : ''}
-      <div class="pact"><button class="btn" data-shareon="${p.id}" title="Send a copy of this ${K.noun} to another approved coach">Share Online</button><button class="btn" data-share="${p.id}" title="Send this ${K.noun} as a file another coach loads with Import file…">Share File</button><button class="btn" data-xm="${p.id}" aria-expanded="${xmenu === p.id}" aria-label="Export ${esc(p.name)}" title="Export this ${K.noun} as PDF, JPG or a backup file">Export…</button>
+      <div class="pact"><button class="btn" data-shareon="${p.id}" title="Send a copy of this ${K.noun} to another approved coach">Share Online</button><button class="btn" data-dl="${p.id}" aria-expanded="${dmenu === p.id}" title="Save this ${K.noun} as a Playboard file to send to another coach, or as a PDF">Download File</button><button class="btn" data-xm="${p.id}" aria-expanded="${xmenu === p.id}" aria-label="Export ${esc(p.name)}" title="Export this ${K.noun} as PDF, JPG or a backup file">Export…</button>
       <button class="btn" data-copy="${p.id}" title="Save a copy in the ${kind === 'play' ? 'Drill' : 'Play'} Library. The original stays here.">${kind === 'play' ? 'Copy as Drill' : 'Copy as Play'}</button>
       <button class="btn${a ? ' arm' : ''}" data-del="${p.id}" aria-label="Delete ${esc(p.name)}" title="${a ? 'Click again to delete' : 'Delete from library'}">${a ? 'Delete?' : 'Delete'}</button></div>
-      ${xmenu === p.id ? `<span class="xmenu" role="group" aria-label="Export ${esc(p.name)}"><button class="btn" data-xp="${p.id}" title="Print or save as PDF">PDF</button><button class="btn" data-xj="${p.id}" title="Save as a JPG image">JPG</button><button class="btn" data-exp="${p.id}" title="Backup file you can import into Playboard on another computer">Backup</button></span>` : ''}</div></article>`;
-  }).join('')}</div>` : items.length ? `<p class="empty">No saved ${K.noun}s match${f.q.trim() ? ' “' + esc(f.q.trim()) + '”' : ''}${f.tag ? ' with that tag' : ''}.${f.q || f.tag ? ' <button class="btn link" data-clear="1">Clear search</button>' : ''}</p>` : `<p class="empty">${K.empty}</p>`;
+      ${xmenu === p.id ? `<span class="xmenu" role="group" aria-label="Export ${esc(p.name)}"><button class="btn" data-xp="${p.id}" title="Print or save as PDF">PDF</button><button class="btn" data-xj="${p.id}" title="Save as a JPG image">JPG</button><button class="btn" data-exp="${p.id}" title="Backup file you can import into Playboard on another computer">Backup</button></span>` : ''}${dmenu === p.id ? dlMenu(p.id, p.name) : ''}</div></article>`;
+  }).join('')}</div>`) : items.length ? `<p class="empty">No saved ${K.noun}s match${f.q.trim() ? ' “' + esc(f.q.trim()) + '”' : ''}${f.tag ? ' with that tag' : ''}.${f.q || f.tag ? ' <button class="btn link" data-clear="1">Clear search</button>' : ''}</p>` : `<p class="empty">${K.empty}</p>`;
 }
 function renderLibrary(){
   const inLib = !!(play.id && playById(play.id)), inDrill = !!(play.id && drillById(play.id));
@@ -2383,7 +2521,12 @@ function addToken(kind){
     snapshot(); removeToken('ball'); renderAll(); return toast('Ball removed. Press Ball again to put it back.');
   }
   let tok;
-  if (kind === 'ball'){ const o = step().tokens.find(t => t.kind === 'O'); tok = {id:'ball', kind, label:'', x: o ? o.x : 25, y: o ? o.y : 25}; }
+  if (kind === 'cone' || kind === 'C'){
+    const k = step().tokens.filter(t => t.kind === kind).length;
+    let id; do { id = kind.toLowerCase() + Math.random().toString(36).slice(2,7); } while (all.some(t => t.id === id));
+    tok = {id, kind, label: kind === 'C' ? 'C' : '', x: kind === 'cone' ? 12 + (k*4)%30 : 40 - (k*4)%20, y: kind === 'cone' ? 26 : 40};
+  }
+  else if (kind === 'ball'){ const o = step().tokens.find(t => t.kind === 'O'); tok = {id:'ball', kind, label:'', x: o ? o.x : 25, y: o ? o.y : 25}; }
   else {
     const same = all.filter(t => t.kind === kind);
     const n = same.reduce((m,t) => Math.max(m, +t.label || 0), 0) + 1;
@@ -2490,6 +2633,7 @@ function toast(msg){ const t = $('#toast'); t.textContent = msg; t.classList.add
 /* ---------- events ---------- */
 $$('.tool[data-tool]').forEach(b => b.addEventListener('click', () => setTool(b.dataset.tool)));
 $$('.pl').forEach(b => b.addEventListener('click', () => toggleRoster(b.dataset.k, +b.dataset.n)));
+$$('.eqb').forEach(b => b.addEventListener('click', () => addToken(b.dataset.k)));
 $('#undo').addEventListener('click', undo);
 $('#redo').addEventListener('click', redo);
 $('#steps').addEventListener('click', e => {
@@ -2709,7 +2853,7 @@ function cleanPlay(raw){ // validate and tidy a play from a file; null if it is 
     if (!st || !Array.isArray(st.tokens) || !Array.isArray(st.lines) || st.tokens.length > 40 || st.lines.length > 120) return null;
     const tokens = [], lines = [];
     for (const t of st.tokens){
-      if (!t || !idOk(t.id) || !['O', 'X', 'ball'].includes(t.kind) || !num(t.x) || !num(t.y)) return null;
+      if (!t || !idOk(t.id) || !['O', 'X', 'ball', 'cone', 'C'].includes(t.kind) || !num(t.x) || !num(t.y)) return null;
       tokens.push({id: t.id, kind: t.kind, label: String(t.label == null ? '' : t.label).replace(/[^\w ]/g, '').slice(0, 3), x: +t.x, y: +t.y});
     }
     for (const l of st.lines){
@@ -2847,10 +2991,11 @@ Object.entries(KINDS).forEach(([kind, K]) => {
     const find = id => K.arr().find(x => x.id === id);
     if (d.clear){ F[kind].q = ''; F[kind].tag = null; $(K.search).value = ''; renderOne(kind); }
     else if (d.shareon){ const p = find(d.shareon); if (p) openShare(kind, p); }
-    else if (d.share){ const p = find(d.share); if (p) shareItem(kind, p); }
+    else if (d.dl){ dmenu = dmenu === d.dl ? null : d.dl; xmenu = null; renderLibrary(); }
+    else if (d.share){ const p = find(d.share); dmenu = null; renderLibrary(); if (p) shareItem(kind, p); }
     else if (d.copy){ const p = find(d.copy); if (p) copyToOther(kind, p); }
-    else if (d.xm){ xmenu = xmenu === d.xm ? null : d.xm; renderLibrary(); }
-    else if (d.xp){ const p = find(d.xp); xmenu = null; renderLibrary(); if (p) printDrawing(p); }
+    else if (d.xm){ xmenu = xmenu === d.xm ? null : d.xm; dmenu = null; renderLibrary(); }
+    else if (d.xp){ const p = find(d.xp); xmenu = null; dmenu = null; renderLibrary(); if (p) printDrawing(p); }
     else if (d.xj){ const p = find(d.xj); xmenu = null; renderLibrary(); if (p) saveJpg(p); }
     else if (d.exp){ const p = find(d.exp); xmenu = null; renderLibrary(); if (p){ if (kind === 'drill') exportPlays([], [], p.name, [p]); else exportPlays([p], [], p.name); } }
     else if (d.open){
@@ -3049,11 +3194,14 @@ const groupKey = s => `${(s.team || '').trim().toLowerCase()}|${(s.comp || '').t
 const sessOrder = (a, b) => (a.date || '9999').localeCompare(b.date || '9999') || ((+a.session || 9999) - (+b.session || 9999));
 
 /* the embedded Training Plan Builder page */
-let frameP = null;
+let frameP = null, sessDirty = false, draftAsked = false;
 function loadFrame(){
   frameP = new Promise(res => {
     const fr = $('#spFrame');
-    fr.addEventListener('load', () => res(fr.contentWindow), {once: true});
+    fr.addEventListener('load', () => {
+      try { const d = fr.contentWindow.document; ['input', 'change', 'click'].forEach(ev => d.addEventListener(ev, () => { sessDirty = true; }, true)); } catch(e){}
+      res(fr.contentWindow);
+    }, {once: true});
     fr.srcdoc = $('#sessionTpl').textContent.replace(/<\\\/script>/g, '<' + '/script>');
   });
   return frameP;
@@ -3168,20 +3316,20 @@ async function saveSession(asCopy){
     if (updating) sessions[sessions.findIndex(s => s.id === rec.id)] = ex; else sessions.pop();
     return toast('Could not save that right now. Check your connection and try again.');
   }
-  curSession = rec.id; updateSpBar(); renderSessions();
+  curSession = rec.id; updateSpBar(); renderSessions(); sessDirty = false; dSet('session', null);
   toast(`${updating ? 'Updated' : 'Saved'} ${sessTitle(rec)} in Training Plans.${rec.team && rec.comp ? '' : ' Add a team and competition to group it with others.'}`);
 }
 $('#spSave').addEventListener('click', () => saveSession(false));
 $('#spCopy').addEventListener('click', () => saveSession(true));
 $('#spNew').addEventListener('click', async () => {
   if (armed !== 'spnew') return arm('spnew');
-  armed = null; clearTimeout(armT); curSession = null; updateSpBar(); await loadFrame(); toast('Started a new training plan.');
+  armed = null; clearTimeout(armT); curSession = null; updateSpBar(); await loadFrame(); sessDirty = false; dSet('session', null); toast('Started a new training plan.');
 });
 async function openSession(id){
   const rec = sessionById(id); if (!rec) return;
   setView('session');
   await loadFrame(); // a fresh page, so nothing from the previous plan is left behind
-  const win = await frameP; restoreSession(win, rec);
+  const win = await frameP; restoreSession(win, rec); sessDirty = false;
   curSession = id; updateSpBar(); toast(`Opened ${sessTitle(rec)}.`);
 }
 
@@ -3192,21 +3340,22 @@ function renderSessions(){
   const shown = sessions.filter(s => !q || [s.team, s.comp, s.date, fmtDate(s.date), s.session && 'session ' + s.session].some(v => (v || '').toLowerCase().includes(q)));
   const groups = {};
   shown.forEach(s => { (groups[groupKey(s)] = groups[groupKey(s)] || []).push(s); });
-  const keys = Object.keys(groups).sort((a, b) => a.localeCompare(b));
+  const keys = Object.keys(groups).sort((a, b) => a.localeCompare(b)); if (VS.session.sort === 'name-desc') keys.reverse();
+  const asList = VS.session.view === 'list';
   if (!keys.length){ $('#sessionList').innerHTML = sessions.length ? '<p class="empty">No training plans match that search.</p>' : '<p class="empty">No training plans yet. Build one in the Training Plan Builder, then press Save Training Plan.</p>'; return; }
   $('#sessionList').innerHTML = keys.map(k => {
-    const g = groups[k].sort(sessOrder), s0 = g[0];
+    const g = sortSessions(groups[k]), s0 = g[0];
     return `<section class="sgroup"><div class="ghead"><div><h2>${esc(s0.team || 'No team')}</h2><span class="meta">${esc(s0.comp || 'No competition')} · ${plural(g.length, 'training plan')}</span></div>
       <div class="gact"><button class="btn" data-gpdf="${esc(k)}" title="One PDF with a cover page and every session in this group">Combined PDF</button><button class="btn" data-gexp="${esc(k)}" title="Backup file with every session in this group">Backup</button></div></div>
-      <div class="cards">${g.map(s => {
+      ${asList ? sessRows(g) : `<div class="cards">${g.map(s => {
         const a = armed === 'ss' + s.id, n = sessDrills(s).length, m = sessMins(s);
         return `<article class="pcard book"><div class="pbody"><button class="nm" data-sopen="${s.id}" title="Open in the builder">${esc(sessTitle(s))}</button>
           <span class="meta">${esc(fmtDate(s.date) || 'No date')}${s.start ? ' · ' + esc(fmtClock(s.start)) : ''}</span>
           <span class="meta">${plural(n, 'drill')}${m ? ' · ' + m + ' min' : ''}</span>
           ${s.sharedFrom ? sharedMark(s.sharedFrom) : ''}
-          <div class="pact"><button class="btn" data-sopen="${s.id}">Open</button><button class="btn" data-sshareon="${s.id}" title="Send a copy of this training plan to another approved coach">Share Online</button><button class="btn" data-sshare="${s.id}" title="Send this training plan as a file another coach loads with Import file…">Share File</button><button class="btn" data-spdf="${s.id}" title="Save as PDF">PDF</button><button class="btn" data-sexp="${s.id}" title="Backup file for this training plan">Backup</button>
-          <button class="btn${a ? ' arm' : ''}" data-sdel="${s.id}" aria-label="Delete ${esc(sessTitle(s))}">${a ? 'Delete?' : 'Delete'}</button></div></div></article>`;
-      }).join('')}</div></section>`;
+          <div class="pact"><button class="btn" data-sopen="${s.id}">Open</button><button class="btn" data-sshareon="${s.id}" title="Send a copy of this training plan to another approved coach">Share Online</button><button class="btn" data-sdl="${s.id}" aria-expanded="${dmenu === s.id}" title="Save this training plan as a Playboard file to send to another coach, or as a PDF">Download File</button><button class="btn" data-spdf="${s.id}" title="Save as PDF">PDF</button><button class="btn" data-sexp="${s.id}" title="Backup file for this training plan">Backup</button>
+          <button class="btn${a ? ' arm' : ''}" data-sdel="${s.id}" aria-label="Delete ${esc(sessTitle(s))}">${a ? 'Delete?' : 'Delete'}</button></div>${dmenu === s.id ? sdlMenu(s.id) : ''}</div></article>`;
+      }).join('')}</div>`}</section>`;
   }).join('');
 }
 $('#spSearch').addEventListener('input', e => { spQ = e.target.value; renderSessions(); });
@@ -3214,9 +3363,10 @@ $('#sessionList').addEventListener('click', e => {
   const b = e.target.closest('button'); if (!b) return; const d = b.dataset;
   const grp = k => sessions.filter(s => groupKey(s) === k).sort(sessOrder);
   if (d.sopen) openSession(d.sopen);
-  else if (d.spdf){ const s = sessionById(d.spdf); if (s) printSessions([s], false); }
+  else if (d.spdf){ const s = sessionById(d.spdf); if (dmenu){ dmenu = null; renderSessions(); } if (s) printSessions([s], false); }
   else if (d.sshareon){ const s = sessionById(d.sshareon); if (s) openShare('session', s); }
-  else if (d.sshare){ const s = sessionById(d.sshare); if (s) shareItem('session', s); }
+  else if (d.sdl){ dmenu = dmenu === d.sdl ? null : d.sdl; renderSessions(); }
+  else if (d.sshare){ const s = sessionById(d.sshare); dmenu = null; renderSessions(); if (s) shareItem('session', s); }
   else if (d.sexp){ const s = sessionById(d.sexp); if (s) exportPlays([], [], `${s.team || 'session'}-${sessTitle(s)}`, [], [s]); }
   else if (d.gpdf){ const g = grp(d.gpdf); if (g.length) printSessions(g, true); }
   else if (d.gexp){ const g = grp(d.gexp); if (g.length) exportPlays([], [], `${g[0].team || 'sessions'}-${g[0].comp || ''}`, [], g); }
@@ -3336,7 +3486,10 @@ async function insertDrills(){
 window.addEventListener('message', e => { if (e.data === 'playboard-insert-drill' && e.source === $('#spFrame').contentWindow) openDrillPick(e.source.__insertTarget); });
 $('#spTheme').addEventListener('click', async () => { const win = await ensureFrame(); win.toggleThemePanel(); win.scrollTo(0, 0); });
 $('#spClear').addEventListener('click', async () => { const win = await ensureFrame(); win.clearText(); });
-$('#spPrint').addEventListener('click', async () => { const win = await ensureFrame(); win.focus(); win.print(); });
+$('#spPrint').addEventListener('click', async () => {
+  try { const d = await collectSession(); printSessions([Object.assign({id: 'draft'}, d)], false); }
+  catch(e){ console.error('print failed', e && e.message); toast('Could not prepare the PDF. Try again.'); }
+});
 $('#dpClose').addEventListener('click', () => { $('#drillPick').hidden = true; });
 $('#drillPick').addEventListener('pointerdown', e => { if (e.target.id === 'drillPick') $('#drillPick').hidden = true; });
 $('#dpSearch').addEventListener('input', e => { dpQ = e.target.value; renderDrillPick(); });
@@ -3458,11 +3611,11 @@ async function flush(){
         if (prev && prev.json === e.json) continue;
         const ord = prev ? prev.ord : nextOrd();
         const r = await putItem(e.kind, e.id, e.json, ord, prev);
-        cloud.saved.set(key, {json: e.json, n: r.n, v: r.v, ord});
+        cloud.saved.set(key, {json: e.json, n: r.n, v: r.v, ord}); TIMES.set(key, Date.now());
       }
       for (const [key, prev] of [...cloud.saved]){
         if (who !== cloud.who) return;
-        if (!cur.has(key)){ await delItem(key, prev); cloud.saved.delete(key); }
+        if (!cur.has(key)){ await delItem(key, prev); cloud.saved.delete(key); TIMES.delete(key); }
       }
     } while (cloud.dirty || cloud.again);
     cloud.err = ''; setSaveState('saved');
@@ -3496,13 +3649,13 @@ async function cloudLoad(soft){
       const x = d.data(), n = Math.max(1, +x.n || 1);
       let json = String(x.data || '');
       if (n > 1) json += await readParts(base, 'chunks', d.id, n, x.v);
-      rows.push({key: d.id, kind: x.kind, ord: +x.ord || 0, n, v: x.v || '', json});
+      rows.push({key: d.id, kind: x.kind, ord: +x.ord || 0, n, v: x.v || '', json, t: +x.t || 0});
     } catch(e){ if (e && e.code) throw e; bad++; console.warn('skipped an item with missing pieces', d.id); }
   }));
   if (who !== cloud.who) return null;
   if (soft && (cloud.dirty || cloud.busy || cloud.timer)) return null; // the person changed something while we were reading: keep their version
   rows.sort((a, b) => a.ord - b.ord || a.key.localeCompare(b.key));
-  const next = {play: [], drill: [], book: [], session: []}, saved = new Map();
+  const next = {play: [], drill: [], book: [], session: []}, saved = new Map(), times = new Map();
   for (const r of rows){
     try {
       const o = JSON.parse(r.json);
@@ -3510,12 +3663,12 @@ async function cloudLoad(soft){
       if ((r.kind === 'play' || r.kind === 'drill') && !Array.isArray(o.steps)) throw new Error('shape');
       if (r.kind === 'book' && !Array.isArray(o.sections)) throw new Error('shape');
       if (r.kind === 'session' && !Array.isArray(o.sections)) throw new Error('shape');
-      next[r.kind].push(o); saved.set(r.key, {json: JSON.stringify(o), n: r.n, v: r.v, ord: r.ord});
+      next[r.kind].push(o); saved.set(r.key, {json: JSON.stringify(o), n: r.n, v: r.v, ord: r.ord}); if (r.t) times.set(r.key, r.t);
       cloud.ordN = Math.max(cloud.ordN, r.ord);
     } catch(e){ bad++; console.warn('skipped an unreadable saved item', r.key); }
   }
   lib = next.play; drills = next.drill; books = next.book; sessions = next.session;
-  cloud.saved = saved; cloud.loaded = true; cloud.lastLoad = Date.now();
+  cloud.saved = saved; TIMES = times; cloud.loaded = true; cloud.lastLoad = Date.now();
   return {n: rows.length - bad, bad};
 }
 function rerenderAll(){ renderLibrary(); renderPlaybooks(); renderSessions(); renderBuilder(); updateCoachesBtn(); }
@@ -3616,7 +3769,7 @@ async function sendShare(kind, item, emailRaw){
   if (kind === 'book'){ const ids = new Set(item.sections.flatMap(s => s.playIds)); payload = {v: 1, item: strip(item), plays: lib.filter(p => ids.has(p.id)).map(strip)}; }
   else payload = {v: 1, item: strip(item)};
   const parts = splitStr(JSON.stringify(payload));
-  if (parts.length > 30) throw {friendly: 'That is too large to share online. Use Share File instead.'};
+  if (parts.length > 30) throw {friendly: 'That is too large to share online. Use Download File instead.'};
   const sid = uid(), base = 'users/' + rid, ops = [];
   parts.forEach((p, i) => { if (i) ops.push(b => b.set(ddoc(`${base}/inboxChunks/${sid}.${i}`), {from: cloud.user.uid, item: sid, i, data: p})); });
   await commitOps(ops);
@@ -3770,7 +3923,7 @@ $('#gateCard').addEventListener('submit', e => { if (e.target.id === 'authForm')
 /* ----- session handling ----- */
 function resetData(){
   cloud.who++; clearTimeout(cloud.timer); cloud.timer = null; clearTimeout(cloud.retry);
-  lib = []; drills = []; books = []; sessions = []; cloud.saved = new Map(); cloud.loaded = false; cloud.dirty = false; cloud.busy = false; cloud.err = '';
+  lib = []; drills = []; books = []; sessions = []; cloud.saved = new Map(); TIMES = new Map(); draftAsked = false; cloud.loaded = false; cloud.dirty = false; cloud.busy = false; cloud.err = '';
   curBook = null; curSession = null; hist = []; fut = []; play = newPlay(); cur = 0; sel = null;
   ['#builder', '#drillPick', '#shareDlg'].forEach(s => { $(s).hidden = true; });
   frameP = null; $('#spFrame').removeAttribute('srcdoc'); // clear the embedded Training Plan Builder
@@ -3807,6 +3960,7 @@ async function onUser(user, quiet){
       $('#acctBar').hidden = false; $('#acctWho').textContent = cloud.name; $('#acctWho').title = lc(user.email); setSaveState('saved');
       setView('builder'); setOverview(false); renderAll(); rerenderAll();
       hideGate();
+      if (!draftAsked) offerDrafts().catch(e => console.warn('draft offer failed', e && e.message)).finally(() => { draftAsked = true; });
       if (cloud.isOwner) refreshPending();
       if (r && r.bad) toast(`${plural(r.bad, 'saved item')} could not be read and ${r.bad === 1 ? 'was' : 'were'} skipped.`);
     } else if (rec.status === 'blocked') gate('blocked');
@@ -3818,6 +3972,7 @@ async function signOut(force){
     const ok = await flushNow();
     if (!ok && !confirm('Some changes could not be saved yet. Sign out anyway and lose them?')) return;
   }
+  dSet('play', null); dSet('session', null);
   try { await auth.signOut(); } catch(e){}
 }
 $('#signOutBtn').addEventListener('click', () => signOut(false));
@@ -3830,6 +3985,52 @@ function startAuth(){
   } catch(e){ gate('error', 'Playboard could not start. ' + friendly(e)); return; }
   gate('loading', 'Checking your sign-in…');
   auth.onAuthStateChanged(u => onUser(u));
+}
+
+/* ---------- draft recovery (ver 12) ---------- */
+const DRAFT_EVERY = 30000;
+const dKey = k => cloud.user ? `playboard-draft-${cloud.user.uid}-${k}` : null;
+function dGet(k){ try { const key = dKey(k), v = key && localStorage.getItem(key); return v ? JSON.parse(v) : null; } catch(e){ return null; } }
+function dSet(k, v){ try { const key = dKey(k); if (!key) return; if (v) localStorage.setItem(key, JSON.stringify(v)); else localStorage.removeItem(key); } catch(e){} }
+const playBase = p => (p && (playById(p.id) || drillById(p.id))) || newPlay();
+const playUntouched = p => JSON.stringify(p) === JSON.stringify(playBase(p));
+async function draftTick(){
+  if (!cloud.user || !cloud.loaded || !draftAsked || document.body.classList.contains('locked') || !$('#draftDlg').hidden) return;
+  if (playUntouched(play)) dSet('play', null); else dSet('play', {t: Date.now(), play});
+  if (frameP && sessDirty){
+    try { const data = await collectSession(); dSet('session', {t: Date.now(), cur: curSession, data}); } catch(e){}
+  }
+}
+setInterval(draftTick, DRAFT_EVERY);
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') draftTick(); });
+window.addEventListener('pagehide', () => { draftTick(); });
+let draftRes = null;
+function askDraft(title, text){
+  return new Promise(res => { $('#drTitle').textContent = title; $('#drText').textContent = text; draftRes = res; $('#draftDlg').hidden = false; $('#drRestore').focus(); });
+}
+function answerDraft(v){ $('#draftDlg').hidden = true; const r = draftRes; draftRes = null; if (r) r(v); }
+$('#drRestore').addEventListener('click', () => answerDraft(true));
+$('#drDiscard').addEventListener('click', () => answerDraft(false));
+const draftWhen = t => { try { return new Date(t).toLocaleString('en-AU', {day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit'}); } catch(e){ return ''; } };
+async function offerDrafts(){
+  const dp = dGet('play');
+  if (dp && dp.play && Array.isArray(dp.play.steps) && dp.play.steps.length && !playUntouched(dp.play) && JSON.stringify(dp.play) !== JSON.stringify(play)){
+    const yes = await askDraft('Unsaved drawing found', `You have an unsaved drawing${dp.play.name ? ' (“' + dp.play.name + '”)' : ''} from ${draftWhen(dp.t)}. Restore it, or discard it and keep things as they are? Your saved plays and drills are not changed either way.`);
+    if (yes){
+      stopPlay(); snapshot(); play = clone(dp.play); cur = 0; sel = null; setView('builder'); setOverview(false); renderAll(); renderLibrary();
+      toast('Restored your unsaved drawing. Save it when you are happy with it.');
+    } else dSet('play', null);
+  } else if (dp) dSet('play', null);
+  const ds = dGet('session'), rec = ds && ds.data && cleanSession(ds.data);
+  if (rec){
+    const title = [rec.team, rec.session ? 'Session ' + rec.session : ''].filter(Boolean).join(' · ');
+    const yes = await askDraft('Unsaved training plan found', `You have an unsaved training plan${title ? ' (' + title + ')' : ''} from ${draftWhen(ds.t)}. Restore it, or discard it and keep things as they are? Your saved training plans are not changed either way.`);
+    if (yes){
+      setView('session'); await loadFrame(); const win = await frameP; restoreSession(win, rec);
+      curSession = ds.cur && sessionById(ds.cur) ? ds.cur : null; updateSpBar(); sessDirty = true;
+      toast('Restored your unsaved training plan. Save it when you are happy with it.');
+    } else dSet('session', null);
+  } else if (ds) dSet('session', null);
 }
 
 setTool('move');
