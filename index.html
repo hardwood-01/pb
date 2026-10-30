@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
+<meta name="playboard-version" content="15">
 <title>Playboard — basketball play designer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -31,6 +32,10 @@ button,input,textarea,select{font:inherit;color:inherit}
 .app{display:grid;grid-template-rows:auto 1fr;height:100%;min-height:0}
 header .btn{align-self:center;flex:none}
 header{background:var(--panel);color:var(--ink);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:18px;padding:0 20px;height:64px;box-sizing:border-box;flex:none}
+#updBar{position:fixed;left:50%;top:10px;transform:translateX(-50%);z-index:60;background:var(--ink);color:#fff;border-radius:12px;padding:10px 14px;box-shadow:0 4px 18px rgba(0,0,0,.25);display:flex;gap:10px;align-items:center;max-width:calc(100vw - 24px);font:500 14px/1.35 system-ui,sans-serif}
+#updBar[hidden]{display:none}
+#updBar button{font:600 13px/1 system-ui,sans-serif;border-radius:8px;border:1px solid rgba(255,255,255,.45);background:transparent;color:#fff;padding:7px 12px;cursor:pointer;white-space:nowrap}
+#updBar button.go{background:#fff;color:var(--ink);border-color:#fff}
 .brand{font:700 17px/1 'Barlow Condensed',sans-serif;opacity:.6;white-space:nowrap}
 #playName{flex:none;width:100%;min-width:0;text-align:center;background:transparent;border:0;border-bottom:2px solid transparent;font:700 30px/1.1 'Barlow Condensed','Arial Narrow',sans-serif;padding:2px 0}
 #playName:hover{border-bottom-color:var(--line)}
@@ -673,6 +678,7 @@ body[data-view="sessions"] #acctBar{margin-left:auto}
 </div>
 <div id="gate"><div class="gcard" id="gateCard"><h1>Playboard</h1><p class="small">Loading…</p><noscript><p>Playboard needs JavaScript switched on.</p></noscript></div></div>
 <div id="toast" role="status"></div>
+<div id="updBar" role="status" hidden><span>A new version of Playboard is available. Reloading keeps your saved work, and anything unsaved is offered back as a draft.</span><button class="go" id="updGo">Reload</button><button id="updLater">Later</button></div>
 <div id="printView" aria-hidden="true"></div>
 
 <script type="text/plain" id="sessionTpl"><!DOCTYPE html>
@@ -2401,15 +2407,15 @@ function tokenMarkup(t,x,y,hasBall){
   const ring = sel && sel.kind === 'tok' && sel.id === t.id ? `<circle r="${t.kind === 'ball' ? 1.4 : 2.3}" fill="none" stroke="#2563EB" stroke-width=".18" stroke-dasharray=".6 .4"/>` : '';
   if (t.kind === 'O') return `<g class="tok" data-id="${t.id}" ${tr}>${ring}<circle r="1.6" fill="transparent"/>${hasBall ? '<circle r="1.55" fill="none" stroke="#171717" stroke-width=".22"/>' : ''}<text text-anchor="middle" y=".78" font-size="2.2" fill="#171717">${t.label}</text></g>`;
   if (t.kind === 'X') return `<g class="tok" data-id="${t.id}" ${tr}>${ring}<circle r="1.7" fill="transparent"/><path d="M-.7 -.7 L.7 .7 M.7 -.7 L-.7 .7" stroke="#DC2626" stroke-width=".36" stroke-linecap="round"/><text x=".85" y="1.65" font-size="1.55" fill="#DC2626">${t.label}</text></g>`;
-  if (t.kind === 'cone') return `<g class="tok" data-id="${t.id}" ${tr}>${ring}<circle r="1.6" fill="transparent"/><path d="M0 -1.35 L1.05 1.05 H-1.05 Z" fill="#171717" stroke="#171717" stroke-width=".13" stroke-linejoin="round"/><path d="M-.42 .05 H.42" stroke="#fff" stroke-width=".3"/><path d="M-1.35 1.25 H1.35" stroke="#171717" stroke-width=".32" stroke-linecap="round"/></g>`;
-  if (t.kind === 'C') return `<g class="tok" data-id="${t.id}" ${tr}>${ring}<circle r="1.6" fill="#fff" stroke="#171717" stroke-width=".28"/><text text-anchor="middle" y=".78" font-size="2.2" font-weight="700" fill="#171717">C</text></g>`;
+  if (t.kind === 'cone') return `<g class="tok" data-id="${t.id}" ${tr}>${ring}<circle r="1.6" fill="transparent"/><g transform="translate(0 -.1) scale(.62)"><path d="M0 -1.35 L1.05 1.05 H-1.05 Z" fill="#171717" stroke="#171717" stroke-width=".13" stroke-linejoin="round"/><path d="M-.42 .05 H.42" stroke="#fff" stroke-width=".3"/><path d="M-1.35 1.25 H1.35" stroke="#171717" stroke-width=".32" stroke-linecap="round"/></g></g>`;
+  if (t.kind === 'C') return `<g class="tok" data-id="${t.id}" ${tr}>${ring}<circle r="1.6" fill="transparent"/>${hasBall ? '<circle r="1.55" fill="none" stroke="#171717" stroke-width=".22"/>' : ''}<text text-anchor="middle" y=".78" font-size="2.2" fill="#171717">C</text></g>`;
   return `<g class="tok" data-id="${t.id}" ${tr}>${ring}<circle r=".82" fill="#F97316" stroke="#9A3412" stroke-width=".1"/><path d="M-.82 0 H.82 M0 -.82 V.82 M-.55 -.6 Q-.2 0 -.55 .6 M.55 -.6 Q.2 0 .55 .6" fill="none" stroke="#9A3412" stroke-width=".08"/></g>`;
 }
 function holderOf(tokens, pos, thr){
   const P = t => pos && pos[t.id] ? pos[t.id] : [t.x, t.y];
   const ball = tokens.find(t => t.kind === 'ball'); if (!ball) return null;
   const b = P(ball); let best = null, bd = thr;
-  for (const t of tokens){ if (t.kind !== 'O') continue; const p = P(t), d = Math.hypot(p[0]-b[0], p[1]-b[1]); if (d < bd){ bd = d; best = t; } }
+  for (const t of tokens){ if (t.kind !== 'O' && t.kind !== 'C') continue; const p = P(t), d = Math.hypot(p[0]-b[0], p[1]-b[1]); if (d < bd){ bd = d; best = t; } }
   return best;
 }
 function renderTokens(tokens, pos){
@@ -2804,8 +2810,8 @@ svg.addEventListener('pointerdown', e => {
   }
   if (tool === 'circle'){
     const t = tokEl && step().tokens.find(k => k.id === tokEl.dataset.id);
-    if (t && t.kind === 'O') toggleCircle(t);
-    else toast('Tap an offensive player to give them the ball.');
+    if (t && (t.kind === 'O' || t.kind === 'C')) toggleCircle(t);
+    else toast('Tap an offensive player or the C to give them the ball.');
     return;
   }
   if (tool === 'erase'){
@@ -2967,7 +2973,7 @@ function addToken(kind){
     let id; do { id = kind.toLowerCase() + Math.random().toString(36).slice(2,7); } while (all.some(t => t.id === id));
     tok = {id, kind, label: kind === 'C' ? 'C' : '', x: kind === 'cone' ? 12 + (k*4)%30 : 40 - (k*4)%20, y: kind === 'cone' ? 26 : 40};
   }
-  else if (kind === 'ball'){ const o = step().tokens.find(t => t.kind === 'O'); tok = {id:'ball', kind, label:'', x: o ? o.x : 25, y: o ? o.y : 25}; }
+  else if (kind === 'ball'){ const o = step().tokens.find(t => t.kind === 'O') || step().tokens.find(t => t.kind === 'C'); tok = {id:'ball', kind, label:'', x: o ? o.x : 25, y: o ? o.y : 25}; }
   else {
     const same = all.filter(t => t.kind === kind);
     const n = same.reduce((m,t) => Math.max(m, +t.label || 0), 0) + 1;
@@ -4504,6 +4510,23 @@ function startAuth(){
   gate('loading', 'Checking your sign-in…');
   auth.onAuthStateChanged(u => onUser(u));
 }
+
+/* ---------- update notice (ver 15) ---------- */
+const APP_VER = 15;
+let updShown = false, updDismissed = 0;
+async function checkUpdate(){
+  if (updShown || document.visibilityState === 'hidden' || !/^https?:$/.test(location.protocol)) return;
+  try {
+    const r = await fetch(location.origin + location.pathname + '?v=' + Date.now(), {cache: 'no-store', headers: {Range: 'bytes=0-4095'}});
+    if (!r.ok) return;
+    const m = /name="playboard-version" content="(\d+)"/.exec(await r.text());
+    if (m && +m[1] > APP_VER && +m[1] > updDismissed){ updShown = true; $('#updBar').hidden = false; }
+  } catch(e){}
+}
+$('#updGo').addEventListener('click', () => location.reload());
+$('#updLater').addEventListener('click', () => { $('#updBar').hidden = true; updShown = false; updDismissed = 1e9; });
+setTimeout(checkUpdate, 4000); setInterval(checkUpdate, 600000);
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') checkUpdate(); });
 
 /* ---------- draft recovery (ver 12) ---------- */
 const DRAFT_EVERY = 30000;
