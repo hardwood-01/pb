@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
-<meta name="playboard-version" content="15">
+<meta name="playboard-version" content="16">
 <title>Playboard — basketball play designer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -400,6 +400,10 @@ body[data-view="session"] header .across,body[data-view="sessions"] header .acro
 .vctl select{border:1px solid var(--line);border-radius:8px;background:var(--bg);padding:8px 10px;font:inherit;font-weight:600;color:var(--ink);cursor:pointer;max-width:240px}
 .lrows{margin-top:18px;border:1px solid var(--line);border-radius:12px;background:var(--panel);overflow:hidden;--act:432px}
 .lrows.ses{--act:430px}
+.lrows.lp{--act:552px}
+#abDlg .shbody{padding:4px 18px 18px}
+#abDlg .shbody .btn.primary{margin-top:14px}
+#abDlg select.field,#abDlg input.field{width:100%}
 .lrows.bk{--act:372px}
 .sgroup .lrows{margin-top:12px}
 .lrow{display:grid;grid-template-columns:minmax(110px,1.3fr) minmax(90px,1fr) minmax(60px,.9fr) 88px var(--act);gap:4px 10px;align-items:center;padding:6px 10px;border-top:1px solid var(--line);min-width:0}
@@ -652,6 +656,22 @@ body[data-view="sessions"] #acctBar{margin-left:auto}
     </div>
     <div class="bbody" id="dpList"></div>
     <div class="bfoot"><button id="dpInsert" class="btn primary" disabled>Insert selected</button><p class="small">Fills the drill name and adds every frame as a small image (4 across). Coaching notes stay empty. If you pick more than one drill, the extra drills go in new rows underneath.</p></div>
+  </div>
+</div>
+<div id="abDlg" class="overlay" hidden>
+  <div class="bcard" role="dialog" aria-modal="true" aria-label="Add to playbook" style="width:min(460px,100%)">
+    <div class="bhead"><h2 style="margin:0;flex:1">Add to Playbook</h2><button id="abClose" class="btn" type="button">Close</button></div>
+    <form id="abForm" class="shbody" novalidate>
+      <p class="small" id="abWhat"></p>
+      <label for="abBook" class="lbl">Playbook</label>
+      <select id="abBook" class="field"></select>
+      <input id="abNewBook" class="field" maxlength="60" placeholder="Name of the new playbook" aria-label="New playbook name" style="margin-top:8px" hidden>
+      <label for="abSec" class="lbl">Section</label>
+      <select id="abSec" class="field"></select>
+      <input id="abNewSec" class="field" maxlength="40" placeholder="Name of the new section" aria-label="New section name" style="margin-top:8px" hidden>
+      <p id="abMsg" class="gmsg" role="status"></p>
+      <button id="abAdd" class="btn primary" type="submit">Add play</button>
+    </form>
   </div>
 </div>
 <div id="shareDlg" class="overlay" hidden>
@@ -2611,10 +2631,10 @@ const dlMenu = (id, name) => `<span class="xmenu" role="group" aria-label="Downl
 const sdlMenu = id => `<span class="xmenu" role="group" aria-label="Download training plan"><button class="btn" data-sshare="${id}" title="A Playboard file another coach loads with Import file…">Playboard file</button><button class="btn" data-sdlpdf="${id}" title="Saves a PDF file to your device">PDF</button></span>`;
 function libActsHTML(kind, p){
   const K = KINDS[kind], a = armed === 'p' + p.id;
-  return `<button class="btn" data-shareon="${p.id}" title="Send a copy of this ${K.noun} to another approved coach">Share Online</button><button class="btn" data-dl="${p.id}" aria-expanded="${dmenu === p.id}" title="Save this ${K.noun} as a Playboard file to send to another coach, or as a PDF">Download File</button><button class="btn" data-xm="${p.id}" aria-expanded="${xmenu === p.id}" aria-label="Export ${esc(p.name)}" title="Export this ${K.noun} as PDF, JPG or a backup file">Export…</button><button class="btn" data-copy="${p.id}" title="Save a copy in the ${kind === 'play' ? 'Drill' : 'Play'} Library. The original stays here.">${kind === 'play' ? 'Copy as Drill' : 'Copy as Play'}</button><button class="btn${a ? ' arm' : ''}" data-del="${p.id}" aria-label="Delete ${esc(p.name)}" title="${a ? 'Click again to delete' : 'Delete from library'}">${a ? 'Delete?' : 'Delete'}</button>`;
+  return `${kind === 'play' ? `<button class="btn" data-addbk="${p.id}" title="Add this play to a playbook">Add to Playbook</button>` : ''}<button class="btn" data-shareon="${p.id}" title="Send a copy of this ${K.noun} to another approved coach">Share Online</button><button class="btn" data-dl="${p.id}" aria-expanded="${dmenu === p.id}" title="Save this ${K.noun} as a Playboard file to send to another coach, or as a PDF">Download File</button><button class="btn" data-xm="${p.id}" aria-expanded="${xmenu === p.id}" aria-label="Export ${esc(p.name)}" title="Export this ${K.noun} as PDF, JPG or a backup file">Export…</button><button class="btn" data-copy="${p.id}" title="Save a copy in the ${kind === 'play' ? 'Drill' : 'Play'} Library. The original stays here.">${kind === 'play' ? 'Copy as Drill' : 'Copy as Play'}</button><button class="btn${a ? ' arm' : ''}" data-del="${p.id}" aria-label="Delete ${esc(p.name)}" title="${a ? 'Click again to delete' : 'Delete from library'}">${a ? 'Delete?' : 'Delete'}</button>`;
 }
 function listHTML(kind, shown){
-  return `<div class="lrows" role="list">${LHEAD.lib(kind)}${shown.map(p => {
+  return `<div class="lrows${kind === 'play' ? ' lp' : ''}" role="list">${LHEAD.lib(kind)}${shown.map(p => {
     const used = kind === 'play' ? books.filter(b => b.sections.some(s => s.playIds.includes(p.id))).length : 0;
     const det = `${p.steps.length} frame${p.steps.length === 1 ? '' : 's'}${p.court === 'full' ? ' · full court' : ' · half court'}${used ? ` · in ${used} playbook${used > 1 ? 's' : ''}` : ''}`;
     return `<div class="lrow${p.id === play.id ? ' on' : ''}" role="listitem"><div class="lname"><button class="nm" data-open="${p.id}" title="Open ${esc(p.name)}">${esc(p.name)}</button>${p.sharedFrom ? sharedMark(p.sharedFrom) : ''}</div>
@@ -2673,7 +2693,7 @@ function renderOne(kind){
       <span class="meta">${p.steps.length} frame${p.steps.length === 1 ? '' : 's'}${p.court === 'full' ? ' · full court' : ' · half court'}${used ? ` · in ${used} playbook${used > 1 ? 's' : ''}` : ''}</span>
       ${p.sharedFrom ? sharedMark(p.sharedFrom) : ''}
       ${(p.tags || []).length ? `<span class="tagrow">${p.tags.map(t => `<span class="tagchip">${esc(t)}</span>`).join('')}</span>` : ''}
-      <div class="pact"><button class="btn" data-shareon="${p.id}" title="Send a copy of this ${K.noun} to another approved coach">Share Online</button><button class="btn" data-dl="${p.id}" aria-expanded="${dmenu === p.id}" title="Save this ${K.noun} as a Playboard file to send to another coach, or as a PDF">Download File</button><button class="btn" data-xm="${p.id}" aria-expanded="${xmenu === p.id}" aria-label="Export ${esc(p.name)}" title="Export this ${K.noun} as PDF, JPG or a backup file">Export…</button>
+      <div class="pact">${kind === 'play' ? `<button class="btn" data-addbk="${p.id}" title="Add this play to a playbook">Add to Playbook</button>` : ''}<button class="btn" data-shareon="${p.id}" title="Send a copy of this ${K.noun} to another approved coach">Share Online</button><button class="btn" data-dl="${p.id}" aria-expanded="${dmenu === p.id}" title="Save this ${K.noun} as a Playboard file to send to another coach, or as a PDF">Download File</button><button class="btn" data-xm="${p.id}" aria-expanded="${xmenu === p.id}" aria-label="Export ${esc(p.name)}" title="Export this ${K.noun} as PDF, JPG or a backup file">Export…</button>
       <button class="btn" data-copy="${p.id}" title="Save a copy in the ${kind === 'play' ? 'Drill' : 'Play'} Library. The original stays here.">${kind === 'play' ? 'Copy as Drill' : 'Copy as Play'}</button>
       <button class="btn${a ? ' arm' : ''}" data-del="${p.id}" aria-label="Delete ${esc(p.name)}" title="${a ? 'Click again to delete' : 'Delete from library'}">${a ? 'Delete?' : 'Delete'}</button></div>
       ${xmenu === p.id ? `<span class="xmenu" role="group" aria-label="Export ${esc(p.name)}"><button class="btn" data-xp="${p.id}" title="Print or save as PDF">PDF</button><button class="btn" data-xj="${p.id}" title="Save as a JPG image">JPG</button><button class="btn" data-exp="${p.id}" title="Backup file you can import into Playboard on another computer">Backup</button></span>` : ''}${dmenu === p.id ? dlMenu(p.id, p.name) : ''}</div></article>`;
@@ -3437,6 +3457,7 @@ Object.entries(KINDS).forEach(([kind, K]) => {
     const b = e.target.closest('button'); if (!b) return; const d = b.dataset;
     const find = id => K.arr().find(x => x.id === id);
     if (d.clear){ F[kind].q = ''; F[kind].tag = null; $(K.search).value = ''; renderOne(kind); }
+    else if (d.addbk){ const p = find(d.addbk); if (p) openAddBook(p); }
     else if (d.shareon){ const p = find(d.shareon); if (p) openShare(kind, p); }
     else if (d.dl){ dmenu = dmenu === d.dl ? null : d.dl; xmenu = null; renderLibrary(); }
     else if (d.dlpdf){ const p = find(d.dlpdf); dmenu = null; renderLibrary(); if (p) downloadPlayPdf(p); }
@@ -4511,8 +4532,62 @@ function startAuth(){
   auth.onAuthStateChanged(u => onUser(u));
 }
 
+/* ---------- add a play to a playbook from the Play Library (ver 16) ---------- */
+let abPlay = null;
+function abFill(){
+  const bsel = $('#abBook'), ssel = $('#abSec'), isNew = bsel.value === '__new';
+  $('#abNewBook').hidden = !isNew;
+  const bk = isNew ? null : bookById(bsel.value);
+  const cur = ssel.value;
+  ssel.innerHTML = (bk ? bk.sections.map(x => `<option value="${esc(x.id)}">${esc(x.name || 'Untitled section')}</option>`).join('') : '') + '<option value="__new">New section…</option>';
+  if (bk && cur && bk.sections.some(x => x.id === cur)) ssel.value = cur; else ssel.value = bk && bk.sections.length ? bk.sections[0].id : '__new';
+  $('#abNewSec').hidden = ssel.value !== '__new';
+  if (!$('#abNewSec').hidden && !$('#abNewSec').value) $('#abNewSec').value = bk ? '' : 'Offense';
+  $('#abMsg').textContent = ''; $('#abMsg').className = 'gmsg';
+  const inIt = bk && bk.sections.some(x => x.playIds.includes(abPlay.id));
+  if (inIt){ $('#abMsg').textContent = 'This play is already in that playbook.'; $('#abMsg').className = 'gmsg err'; }
+  $('#abAdd').disabled = !!inIt;
+}
+function openAddBook(p){
+  abPlay = p;
+  $('#abWhat').textContent = `Add the play “${p.name || 'Untitled'}” to a playbook. It stays in your Play Library, and the playbook uses the saved play.`;
+  $('#abBook').innerHTML = books.map(b => `<option value="${esc(b.id)}">${esc(b.title || 'Untitled playbook')}</option>`).join('') + '<option value="__new">New playbook…</option>';
+  $('#abBook').value = books.length ? books[0].id : '__new';
+  $('#abNewBook').value = `Playbook ${books.length + 1}`; $('#abNewSec').value = '';
+  abFill(); $('#abDlg').hidden = false; $('#abBook').focus();
+}
+function closeAddBook(){ $('#abDlg').hidden = true; abPlay = null; }
+$('#abBook').addEventListener('change', () => { $('#abNewSec').value = ''; abFill(); });
+$('#abSec').addEventListener('change', () => { $('#abNewSec').hidden = $('#abSec').value !== '__new'; if (!$('#abNewSec').hidden) $('#abNewSec').focus(); });
+$('#abClose').addEventListener('click', closeAddBook);
+$('#abDlg').addEventListener('pointerdown', e => { if (e.target.id === 'abDlg') closeAddBook(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && !$('#abDlg').hidden) closeAddBook(); });
+$('#abForm').addEventListener('submit', e => {
+  e.preventDefault(); if (!abPlay) return;
+  const fail = m => { $('#abMsg').textContent = m; $('#abMsg').className = 'gmsg err'; };
+  let bk = $('#abBook').value === '__new' ? null : bookById($('#abBook').value);
+  const newBook = !bk;
+  if (newBook){
+    const t = $('#abNewBook').value.trim(); if (!t) return fail('Give the new playbook a name.');
+    bk = {id: uid(), title: t.slice(0, 60), sections: []}; 
+  }
+  let sec;
+  if ($('#abSec').value === '__new'){
+    const n = $('#abNewSec').value.trim(); if (!n) return fail('Give the new section a name.');
+    sec = {id: uid(), name: n.slice(0, 40), playIds: []};
+  } else sec = bk.sections.find(x => x.id === $('#abSec').value);
+  if (!sec) return fail('Choose a section.');
+  if (bk.sections.some(x => x.playIds.includes(abPlay.id))) return fail('This play is already in that playbook.');
+  if (newBook) books.push(bk);
+  if (!bk.sections.includes(sec)) bk.sections.push(sec);
+  sec.playIds.push(abPlay.id);
+  const nm = abPlay.name || 'Untitled';
+  saveData(); renderPlaybooks(); renderLibrary(); closeAddBook();
+  toast(`Added “${nm}” to ${bk.title || 'the playbook'}, section ${sec.name || 'Untitled section'}.`);
+});
+
 /* ---------- update notice (ver 15) ---------- */
-const APP_VER = 15;
+const APP_VER = 16;
 let updShown = false, updDismissed = 0;
 async function checkUpdate(){
   if (updShown || document.visibilityState === 'hidden' || !/^https?:$/.test(location.protocol)) return;
@@ -4525,7 +4600,7 @@ async function checkUpdate(){
 }
 $('#updGo').addEventListener('click', () => location.reload());
 $('#updLater').addEventListener('click', () => { $('#updBar').hidden = true; updShown = false; updDismissed = 1e9; });
-setTimeout(checkUpdate, 4000); setInterval(checkUpdate, 600000);
+setTimeout(checkUpdate, 4000); setInterval(checkUpdate, 3600000);
 document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') checkUpdate(); });
 
 /* ---------- draft recovery (ver 12) ---------- */
