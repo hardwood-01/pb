@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
-<meta name="playboard-version" content="16">
+<meta name="playboard-version" content="17">
 <title>Playboard — basketball play designer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -343,7 +343,7 @@ body[data-view="session"] header .across,body[data-view="sessions"] header .acro
   #printView .sbox{display:grid;grid-template-columns:1fr 1fr;gap:4mm;margin-bottom:3mm}
   #printView .sbox div{border:1px solid #ccc;border-radius:2mm;padding:2mm;white-space:pre-wrap;min-height:10mm}
   #printView .sbox b{display:block;font-size:7pt;text-transform:uppercase;color:#666;letter-spacing:.05em;font-weight:600}
-  #printView .ssec{border:1px solid #ccc;border-radius:2mm;margin-bottom:3mm;overflow:hidden}
+  #printView .ssec{border:1px solid #ccc;border-radius:2mm;margin-bottom:3mm;overflow:hidden;break-inside:avoid;page-break-inside:avoid}
   #printView .ssh{display:flex;justify-content:space-between;padding:1.5mm 3mm;font-weight:700;font-size:10.5pt;-webkit-print-color-adjust:exact;print-color-adjust:exact}
   #printView .sdr{display:grid;grid-template-columns:16mm 12mm 1fr 1.4fr;gap:3mm;padding:1.5mm 3mm;border-top:1px solid #e3e3e3;font-size:9.5pt;break-inside:avoid}
   #printView .sdr .nt{white-space:pre-wrap}
@@ -400,13 +400,13 @@ body[data-view="session"] header .across,body[data-view="sessions"] header .acro
 .vctl select{border:1px solid var(--line);border-radius:8px;background:var(--bg);padding:8px 10px;font:inherit;font-weight:600;color:var(--ink);cursor:pointer;max-width:240px}
 .lrows{margin-top:18px;border:1px solid var(--line);border-radius:12px;background:var(--panel);overflow:hidden;--act:432px}
 .lrows.ses{--act:430px}
-.lrows.lp{--act:552px}
+.lrows.lp{--act:512px}
 #abDlg .shbody{padding:4px 18px 18px}
 #abDlg .shbody .btn.primary{margin-top:14px}
 #abDlg select.field,#abDlg input.field{width:100%}
 .lrows.bk{--act:372px}
 .sgroup .lrows{margin-top:12px}
-.lrow{display:grid;grid-template-columns:minmax(110px,1.3fr) minmax(90px,1fr) minmax(60px,.9fr) 88px var(--act);gap:4px 10px;align-items:center;padding:6px 10px;border-top:1px solid var(--line);min-width:0}
+.lrow{display:grid;grid-template-columns:minmax(100px,1.2fr) minmax(70px,.8fr) minmax(110px,1.3fr) 88px var(--act);gap:4px 10px;align-items:center;padding:6px 10px;border-top:1px solid var(--line);min-width:0}
 .lrow>*{min-width:0}
 .lrow:first-child{border-top:0}
 .lrow.on{box-shadow:inset 3px 0 0 var(--ink)}
@@ -414,20 +414,21 @@ body[data-view="session"] header .across,body[data-view="sessions"] header .acro
 .lrow.lhd button{background:none;border:0;padding:2px 0;font:inherit;letter-spacing:inherit;text-transform:inherit;color:inherit;cursor:pointer;display:inline-flex;align-items:center;gap:5px;text-align:left;max-width:100%;white-space:nowrap}
 .lrow.lhd button:hover{color:var(--ink)}
 .lrow.lhd button[aria-sort]{color:var(--ink);font-weight:700}
-.lrow.lhd .arr{font-size:9px;line-height:1}
+.lrow.lhd .arr{display:inline-flex;flex-direction:column;font-size:7px;line-height:.85;color:inherit;flex:none}
+.lrow.lhd .arr i{font-style:normal;display:block}
 .lrow .lname{display:flex;flex-direction:row;align-items:center;gap:6px;min-width:0}
 .lrow .lname .sharedtag{flex:none}
 .lrow .nm{background:none;border:0;padding:0;text-align:left;font:700 18px/1.15 'Barlow Condensed',sans-serif;cursor:pointer;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink)}
 .lrow .nm:hover{text-decoration:underline}
 .lrow .meta{color:var(--muted);font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.lrow .tagrow{flex:none;padding:0;display:flex;flex-wrap:nowrap;gap:4px;overflow:hidden}
+.lrow .tagrow{flex:none;padding:0;display:flex;flex-wrap:wrap;gap:3px 4px;overflow:visible;align-content:center}
 .lrow .tagrow .tagchip{flex:none}
 .lrow .pact{display:flex;gap:4px;flex-wrap:nowrap;justify-content:flex-end}
 .lrow .pact .btn{padding:3px 7px;font-size:12.5px;white-space:nowrap;flex:none}
 .lrow .pact .btn.arm{color:#DC2626;border-color:#DC2626;font-weight:700}
-.lrow .xmenu{grid-column:1/-1;padding:0;display:flex;gap:6px;justify-content:flex-end}
-@media (max-width:1180px){.lrow{grid-template-columns:minmax(0,1.4fr) minmax(0,1fr) minmax(0,1fr) 88px}.lrow.lhd .hact{display:none}.lrow .pact{grid-column:1/-1;justify-content:flex-start;flex-wrap:wrap}}
-@media (max-width:760px){.lrow{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.lrow.lhd{display:none}}
+.lrow .xmenu{grid-column:5;padding:0;display:flex;gap:6px;justify-content:flex-end}
+@media (max-width:1180px){.lrow .xmenu{grid-column:1/-1;max-width:440px;justify-self:start;width:100%}.lrow{grid-template-columns:minmax(0,1.4fr) minmax(0,1fr) minmax(0,1.2fr) 88px}.lrow.lhd .hact{display:none}.lrow .pact{grid-column:1/-1;justify-content:flex-start;flex-wrap:wrap}}
+@media (max-width:760px){.lrow .xmenu{max-width:none}.lrow{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.lrow.lhd{display:none}}
 @media (max-width:520px){.lrow{grid-template-columns:minmax(0,1fr)}}
 #draftDlg .shbody{padding:4px 18px 18px}
 #draftDlg .dact{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
@@ -769,13 +770,16 @@ body[data-view="sessions"] #acctBar{margin-left:auto}
   .logo-resize-handle:hover { opacity: 1; }
   .logo-resize-handle svg { width: 14px; height: 14px; }
   .logo-remove:hover { background: var(--bg3); }
+  .logo-btns { display: flex; gap: 4px; margin-top: 6px; }
+  .logo-act { font: inherit; font-size: 10px; padding: 3px 6px; border: 0.5px solid var(--border2); border-radius: 4px; background: var(--bg2); color: var(--text); cursor: pointer; }
+  .logo-act:hover { background: var(--bg3); }
   .header-text { flex: 1; }
   h1 { font-family: var(--font-head); font-size: 26px; font-weight: 700; margin-bottom: 2px; }
   .header-sub { font-size: 12px; color: var(--text3); }
   @media print {
     .toolbar { display: none !important; }
     .logo-placeholder { display: none !important; }
-    .logo-remove { display: none !important; }
+    .logo-remove, .logo-btns { display: none !important; }
     .logo-resize-handle { display: none !important; }
   }
 
@@ -1114,6 +1118,7 @@ function addMins(base,delta){ const t=base+delta; const h=Math.floor(t/60)%24,m=
 
 /* ── RECALC ── */
 function recalc(){
+  if(typeof updateMoveBtns === 'function') updateMoveBtns();
   const startMins = parseTime(document.getElementById('f-start').value);
   const endMins   = parseTime(document.getElementById('f-end').value);
   const totalAvail = (startMins!==null && endMins!==null) ? endMins - startMins : null;
@@ -1462,6 +1467,13 @@ function makeSection(cfg){
   delBtn.className='icon-btn del'; delBtn.title='Remove section'; delBtn.textContent='×'; delBtn.style.fontSize='17px';
   delBtn.onclick=()=>{if(confirm('Remove this section?')){sec.remove();placeAddRow();recalc();}};
 
+  const upBtn=document.createElement('button');
+  upBtn.className='icon-btn mv-up'; upBtn.title='Move section up'; upBtn.textContent='↑'; upBtn.style.fontSize='15px'; upBtn.style.fontWeight='700'; upBtn.setAttribute('aria-label','Move section up');
+  upBtn.onclick=()=>moveSection(sec,-1);
+  const dnBtn=document.createElement('button');
+  dnBtn.className='icon-btn mv-dn'; dnBtn.title='Move section down'; dnBtn.textContent='↓'; dnBtn.style.fontSize='15px'; dnBtn.style.fontWeight='700'; dnBtn.setAttribute('aria-label','Move section down');
+  dnBtn.onclick=()=>moveSection(sec,1);
+  actions.appendChild(upBtn); actions.appendChild(dnBtn);
   actions.appendChild(clearBtn); actions.appendChild(toggleBtn); actions.appendChild(delBtn);
   head.appendChild(handle); head.appendChild(cpWrap); head.appendChild(titleInput);
   if(!cfg.reflection) head.appendChild(minsBadge);
@@ -1500,6 +1512,26 @@ function makeSection(cfg){
   return sec;
 }
 
+function moveSection(sec, dir){
+  const cont = document.getElementById('sections');
+  const secs = [...cont.children].filter(x => x.classList.contains('sec'));
+  const i = secs.indexOf(sec), o = secs[i + dir];
+  if(!o) return;
+  if(dir > 0 && o.classList.contains('reflection-sec') && !sec.classList.contains('reflection-sec')) return; // Reflection stays last
+  if(dir < 0) cont.insertBefore(sec, o); else cont.insertBefore(sec, o.nextSibling);
+  placeAddRow(); recalc();
+  try { sec.scrollIntoView({block: 'nearest', behavior: 'smooth'}); } catch(e){}
+  const b = sec.querySelector(dir < 0 ? '.mv-up' : '.mv-dn'); if(b && !b.disabled) b.focus();
+}
+function updateMoveBtns(){
+  const secs = [...document.querySelectorAll('#sections > .sec')];
+  secs.forEach((x, i) => {
+    const u = x.querySelector('.mv-up'), d = x.querySelector('.mv-dn');
+    if(u){ u.disabled = i === 0; u.style.opacity = i === 0 ? '.3' : ''; }
+    const nx = secs[i + 1], stop = !nx || (nx.classList.contains('reflection-sec') && !x.classList.contains('reflection-sec'));
+    if(d){ d.disabled = stop; d.style.opacity = stop ? '.3' : ''; }
+  });
+}
 const ADD_ROW = document.querySelector('.add-section-row');
 function placeAddRow(){ // keep "+ Add section" just above the Reflection section (or last if there is none)
   const cont = document.getElementById('sections');
@@ -1617,7 +1649,15 @@ function attachLogoDragDrop(){
   });
 }
 
+function addLogoButtons(){
+  const area = document.getElementById('logo-area');
+  if(!area || area.querySelector('.logo-btns') || !area.querySelector('#logo-img-wrap')) return;
+  const d = document.createElement('div'); d.className = 'logo-btns';
+  d.innerHTML = '<button type="button" class="logo-act" onclick="document.getElementById(\'logo-file-r\').click()" title="Choose a different logo">Replace</button><button type="button" class="logo-act" onclick="removeLogo()" title="Take the logo off this plan">Remove</button><input type="file" id="logo-file-r" accept="image/*" hidden onchange="handleLogoUpload(event)">';
+  area.appendChild(d);
+}
 function attachLogoResize(){
+  addLogoButtons();
   const handle = document.getElementById('logo-resize');
   const wrap   = document.getElementById('logo-img-wrap');
   if(!handle || !wrap) return;
@@ -2619,7 +2659,7 @@ function sortSessions(arr){
 // clickable column headings: the first click sorts one way, the next click reverses it
 const hdBtn = (kind, label, pair) => {
   const [x, y] = pair, cur = VS[kind].sort, on = cur === x || cur === y;
-  return `<button type="button" data-hs="${kind}" data-pair="${x}|${y}"${on ? ` aria-sort="${cur === x ? 'ascending' : 'descending'}"` : ''} title="Sort by ${esc(label.toLowerCase())}; click again to reverse">${esc(label)}${on ? `<span class="arr" aria-hidden="true">${cur === x ? '▲' : '▼'}</span>` : ''}</button>`;
+  return `<button type="button" data-hs="${kind}" data-pair="${x}|${y}"${on ? ` aria-sort="${cur === x ? 'ascending' : 'descending'}"` : ''} title="Sort by ${esc(label.toLowerCase())}; click again to reverse">${esc(label)}<span class="arr${on ? '' : ' two'}" aria-hidden="true">${!on ? '<i>▲</i><i>▼</i>' : cur === x ? '<i>▲</i>' : '<i>▼</i>'}</span></button>`;
 };
 const LHEAD = {
   lib: kind => `<div class="lrow lhd">${hdBtn(kind, 'Name', ['name-asc', 'name-desc'])}${hdBtn(kind, 'Details', ['frames-asc', 'frames-desc'])}${hdBtn(kind, 'Tags', ['tag-asc', 'tag-desc'])}${hdBtn(kind, 'Saved', ['saved-new', 'saved-old'])}<span class="hact"></span></div>`,
@@ -2631,7 +2671,7 @@ const dlMenu = (id, name) => `<span class="xmenu" role="group" aria-label="Downl
 const sdlMenu = id => `<span class="xmenu" role="group" aria-label="Download training plan"><button class="btn" data-sshare="${id}" title="A Playboard file another coach loads with Import file…">Playboard file</button><button class="btn" data-sdlpdf="${id}" title="Saves a PDF file to your device">PDF</button></span>`;
 function libActsHTML(kind, p){
   const K = KINDS[kind], a = armed === 'p' + p.id;
-  return `${kind === 'play' ? `<button class="btn" data-addbk="${p.id}" title="Add this play to a playbook">Add to Playbook</button>` : ''}<button class="btn" data-shareon="${p.id}" title="Send a copy of this ${K.noun} to another approved coach">Share Online</button><button class="btn" data-dl="${p.id}" aria-expanded="${dmenu === p.id}" title="Save this ${K.noun} as a Playboard file to send to another coach, or as a PDF">Download File</button><button class="btn" data-xm="${p.id}" aria-expanded="${xmenu === p.id}" aria-label="Export ${esc(p.name)}" title="Export this ${K.noun} as PDF, JPG or a backup file">Export…</button><button class="btn" data-copy="${p.id}" title="Save a copy in the ${kind === 'play' ? 'Drill' : 'Play'} Library. The original stays here.">${kind === 'play' ? 'Copy as Drill' : 'Copy as Play'}</button><button class="btn${a ? ' arm' : ''}" data-del="${p.id}" aria-label="Delete ${esc(p.name)}" title="${a ? 'Click again to delete' : 'Delete from library'}">${a ? 'Delete?' : 'Delete'}</button>`;
+  return `${kind === 'play' ? `<button class="btn" data-addbk="${p.id}" title="Add this play to a playbook">+ Playbook</button>` : ''}<button class="btn" data-shareon="${p.id}" title="Send a copy of this ${K.noun} to another approved coach">Share Online</button><button class="btn" data-dl="${p.id}" aria-expanded="${dmenu === p.id}" title="Save this ${K.noun} as a Playboard file to send to another coach, or as a PDF">Download File</button><button class="btn" data-xm="${p.id}" aria-expanded="${xmenu === p.id}" aria-label="Export ${esc(p.name)}" title="Export this ${K.noun} as PDF, JPG or a backup file">Export…</button><button class="btn" data-copy="${p.id}" title="Save a copy in the ${kind === 'play' ? 'Drill' : 'Play'} Library. The original stays here.">${kind === 'play' ? 'Copy as Drill' : 'Copy as Play'}</button><button class="btn${a ? ' arm' : ''}" data-del="${p.id}" aria-label="Delete ${esc(p.name)}" title="${a ? 'Click again to delete' : 'Delete from library'}">${a ? 'Delete?' : 'Delete'}</button>`;
 }
 function listHTML(kind, shown){
   return `<div class="lrows${kind === 'play' ? ' lp' : ''}" role="list">${LHEAD.lib(kind)}${shown.map(p => {
@@ -3880,7 +3920,10 @@ async function downloadSessionPdf(s){
     const pxMm = 96 / 25.4, pageH = 270 * pxMm, atoms = [];
     const add = (el, force) => { const r = el.getBoundingClientRect(); atoms.push({t: r.top - top0, b: r.bottom - top0, force}); };
     for (const ch of sp.children){
-      if (ch.classList.contains('ssec')) [...ch.children].forEach((x, i) => add(x, i === 0 && ch.classList.contains('srefl')));
+      if (ch.classList.contains('ssec')){
+        if (ch.getBoundingClientRect().height <= pageH) add(ch, ch.classList.contains('srefl')); // keep a whole section on one page
+        else [...ch.children].forEach((x, i) => add(x, i === 0 && ch.classList.contains('srefl'))); // only a section longer than a page is split
+      }
       else add(ch, false);
     }
     const cuts = [0]; let start = 0;
@@ -4587,7 +4630,7 @@ $('#abForm').addEventListener('submit', e => {
 });
 
 /* ---------- update notice (ver 15) ---------- */
-const APP_VER = 16;
+const APP_VER = 17;
 let updShown = false, updDismissed = 0;
 async function checkUpdate(){
   if (updShown || document.visibilityState === 'hidden' || !/^https?:$/.test(location.protocol)) return;
