@@ -708,7 +708,7 @@ body[data-view="sessions"] #acctBar{margin-left:auto}
 <li><b>Play</b> animates the play, moving players along their lines from frame to frame. Press it again (it says <b>Stop</b> while playing) to stop. The <b>Space</b> bar does the same on a computer.</li>
 <li>The small <b>▾</b> beside Play opens the play options:
 <ul>
-<li><b>Speed:</b> <b>0.25×</b>, <b>0.5×</b> or <b>Normal</b>. Playboard remembers your choice on that device, and the Play button shows it (for example <b>Play 0.5×</b>).</li>
+<li><b>Speed:</b> <b>0.25×</b>, <b>0.5×</b> or <b>Normal</b>. Playboard remembers your choice on that device.</li>
 <li><b>Loop until I press Stop</b> repeats the play again and again, handy for showing it to players.</li>
 <li><b>Play now</b> starts the play with those settings.</li>
 <li><b>Download MP4</b> saves the play as a video you can send or show on any device. It uses the speed you chose, shows the play's name for a moment at the start, and has no sound. It is made in your browser and can take from a few seconds to a minute, with the progress shown at the bottom of the screen.</li>
@@ -5261,7 +5261,7 @@ function animateStep(a, b, done){
 }
 let playTimer = null;
 const rateTxt = r => r === 1 ? '' : ' ' + (r === .5 ? '0.5' : r === .25 ? '0.25' : r) + '×';
-const playLabel = () => 'Play' + rateTxt(playRate);
+const playLabel = () => 'Play'; // always the same short word, so the button never wraps below the frames
 function playAll(){
   if (playing) return stopPlay();
   if (play.steps.length < 2) return toast('Add a second frame to animate the play.');
@@ -6789,6 +6789,7 @@ function syncPlayOpt(){
   $('#playLoop').checked = playLoop;
   if (!playing) $('#playBtn').textContent = playLabel();
   $('#playNow').textContent = playRate === 1 ? 'Play now' : 'Play now at ' + rateTxt(playRate).trim();
+  $('#playMenuBtn').title = 'Speed, loop and download as a video. Speed now: ' + (playRate === 1 ? 'normal' : rateTxt(playRate).trim());
 }
 function openPlayMenu(on){
   const m = $('#playMenu'); m.hidden = !on; $('#playMenuBtn').setAttribute('aria-expanded', String(on));
