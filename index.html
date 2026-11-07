@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
-<meta name="playboard-version" content="17">
+<meta name="playboard-version" content="18">
 <title>Playboard — basketball play designer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -81,6 +81,19 @@ body:not([data-view="builder"]) .across{margin-left:auto}
 .page h1{font:700 36px/1.05 'Barlow Condensed',sans-serif;margin:0 0 16px}
 .page .toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 .page .toolbar .field{flex:1 1 240px;max-width:420px;width:auto}
+.helpwrap{max-width:820px!important}
+.htoc{display:flex;flex-wrap:wrap;gap:6px;margin:16px 0 6px}
+.htoc button{border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:5px 12px;font:600 13px/1.2 inherit;color:var(--ink);cursor:pointer}
+.htoc button:hover{border-color:var(--ink)}
+.htopic{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px 22px 14px;margin-top:14px;scroll-margin-top:12px}
+.htopic h2{font:700 26px/1.1 'Barlow Condensed',sans-serif;margin:0 0 8px}
+.htopic h3{font:700 15px/1.3 inherit;margin:14px 0 4px;letter-spacing:.01em}
+.htopic p,.htopic li{font-size:15px;line-height:1.5;color:var(--ink)}
+.htopic p{margin:6px 0}
+.htopic ul,.htopic ol{margin:6px 0 8px;padding-left:22px}
+.htopic li{margin:3px 0}
+.htopic .hkey{display:inline-block;border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:0 6px;font:600 12.5px/1.5 inherit;background:var(--bg)}
+.htopic.hmiss,.htoc button.hmiss{display:none}
 .page .toolbar .btn{flex:none}
 .page .small{max-width:70ch;margin-top:22px}
 .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px;margin-top:18px}
@@ -310,6 +323,15 @@ body[data-view="session"] header .across,body[data-view="sessions"] header .acro
   #printView{display:block;font-family:'Barlow',Arial,sans-serif;color:#000;-webkit-print-color-adjust:exact;print-color-adjust:exact}
   #printView .ppage{height:270mm;overflow:hidden;display:flex;flex-direction:column;break-after:page;page-break-after:always}
   #printView .ppage:last-child{break-after:auto;page-break-after:auto}
+  #printView.helpdoc{font:10.5pt/1.45 Arial,sans-serif}
+  #printView.helpdoc h1{font:700 22pt/1.1 Arial,sans-serif;margin:0 0 2mm}
+  #printView.helpdoc .hsub{color:#555;margin:0 0 5mm}
+  #printView.helpdoc .htopic{border:0;border-top:1px solid #ccc;border-radius:0;padding:3mm 0 1mm;margin:3mm 0 0;background:none;break-inside:avoid;page-break-inside:avoid}
+  #printView.helpdoc .htopic h2{font:700 14pt/1.2 Arial,sans-serif;margin:0 0 1.5mm}
+  #printView.helpdoc .htopic h3{font:700 10.5pt/1.3 Arial,sans-serif;margin:2.5mm 0 .5mm}
+  #printView.helpdoc .htopic p,#printView.helpdoc .htopic li{font:10.5pt/1.45 Arial,sans-serif;color:#000}
+  #printView.helpdoc .htopic ul,#printView.helpdoc .htopic ol{margin:1mm 0 1.5mm;padding-left:6mm}
+  #printView.helpdoc .hkey{border:1px solid #999;border-radius:1mm;padding:0 1mm;font-size:9pt}
   #printView .pfoot{margin-top:auto;display:flex;justify-content:space-between;font-size:9pt;color:#555;border-top:1px solid #ccc;padding-top:2mm}
   #printView .cover{justify-content:center;align-items:center;text-align:center}
   #printView .cover h1{font:700 40pt/1.1 'Barlow Condensed','Arial Narrow',sans-serif;margin:0 0 4mm}
@@ -472,6 +494,7 @@ body[data-view="sessions"] #acctBar{margin-left:auto}
       <button class="vbtn" data-view="playbooks">Playbooks</button>
       <button class="vbtn" data-view="sessions">Training Plans</button>
       <button class="vbtn" data-view="backup">Backup</button>
+      <button class="vbtn" data-view="help">Help</button>
       <button class="vbtn" data-view="coaches" id="coachesBtn" hidden>Coaches</button>
     </nav>
     <nav class="tools" aria-label="Drawing tools">
@@ -604,6 +627,180 @@ body[data-view="sessions"] #acctBar{margin-left:auto}
         <button class="btn importBtn" data-scope="all" title="Add everything from a Playboard backup file: plays, drills, training plans and playbooks">Import a backup file…</button>
       </div>
       <p class="small">Export everything downloads a .json file you can keep or email. Import a backup file… puts everything in such a file into your account in one go (plays, drills, training plans, then playbooks). You can also use Import file… in each section, and each of those buttons only imports its own section. Import adds to what you already have and never overwrites a play or drill that differs; it adds a copy instead. Session plans have their own Import file… under Training Plans. The Export… and Backup buttons on each play, drill, playbook or training plan export just that one. While you work, Playboard keeps a draft of anything you have not saved yet (the drawing in the Builder and the Training Plan Builder) in this browser about every 30 seconds. If the page closes or something goes wrong, you are offered Restore draft or Discard draft the next time you sign in. Signing out clears the drafts.</p>
+    </div></section>
+
+    <section class="page" id="viewHelp" hidden aria-label="Help"><div class="inner helpwrap">
+      <h1>Help</h1>
+      <div class="toolbar">
+        <input id="helpSearch" class="field" type="search" placeholder="Search help, for example: logo, share, PDF" aria-label="Search help" autocomplete="off">
+        <button id="helpPrint" class="btn" title="Print the guide, or choose Save as PDF in the print window">Print / Save PDF</button>
+      </div>
+      <nav id="helpToc" class="htoc" aria-label="Help topics"></nav>
+      <p id="helpNone" class="empty" hidden>No topics match that search.</p>
+      <div id="helpBody">
+<article class="htopic" id="h-start"><h2>Getting started</h2>
+<p>Playboard is a basketball play designer for coaches. Your plays, drills, playbooks and training plans are saved online in your own account, so they are the same on every phone, tablet or computer you sign in on. Other coaches cannot see your work unless you share it with them.</p>
+<h3>Creating your account</h3>
+<ol>
+<li>Open the Playboard page address and choose <b>Create account</b>.</li>
+<li>Enter your email and a password. Playboard emails you a link to confirm your address. Click it.</li>
+<li>The Playboard owner then approves your access. Until then you will see <b>Waiting for approval</b>. Once you are approved, sign in again and you are in.</li>
+</ol>
+<h3>The Saved label</h3>
+<p>At the top right, the label next to your name shows whether your work is safe: <b>Saved</b>, <b>Saving…</b>, or <b>Not saved. Tap to retry</b>. If you see the last one, check your internet connection and tap it. Use <b>Sign out</b> when you finish on a shared device.</p>
+<h3>Finding your way around</h3>
+<p>The buttons down the left side switch between the Play / Drill Builder, Training Plan Builder, the libraries, Playbooks, Training Plans, Backup and this Help page.</p>
+</article>
+
+<article class="htopic" id="h-draw"><h2>Drawing a play</h2>
+<p>Open <b>Play / Drill Builder</b>. Start by adding players, then draw what they do.</p>
+<h3>Adding players and equipment</h3>
+<ul>
+<li>Press a number (1–5) to add an attacker, or X1–X5 to add a defender. Each press adds one, then drag it into place.</li>
+<li>The cone button adds a training cone. Press it once for each cone you need. The C button adds a coach marker.</li>
+<li>Use <b>Half court</b> or <b>Full court</b> above the frames to choose the court.</li>
+</ul>
+<h3>Drawing movement</h3>
+<p>Choose a tool on the left, then draw on the court:</p>
+<ul>
+<li><b>Move</b> drags players around. It also selects lines.</li>
+<li><b>Cut</b> draws a player's cut. <b>Dribble</b> draws a zig-zag dribble line. <b>Pass</b> draws a dashed pass from the passer to the receiver. <b>Shoot</b> draws a dashed line ending in a crosshair at the basket.</li>
+<li><b>Screen</b> draws a line ending in a bar where the screen is set. <b>Handoff</b> places the handoff symbol: tap to place it, or drag from the giver to the receiver.</li>
+<li><b>Ball</b> gives the ball to a player or the C. Tap again to take it away.</li>
+<li><b>Erase</b> removes a line or player you tap.</li>
+</ul>
+<h3>Changing a line</h3>
+<p>With <b>Move</b> selected, tap a line. Drag its end dots to resize it, or the middle dot to curve it (double-click the middle dot to straighten it). Press <b>Delete</b> to remove the selected line or player. <b>Undo</b> and <b>Redo</b> are on the left.</p>
+<h3>Keyboard shortcuts</h3>
+<p>On a computer: <span class="hkey">V</span> Move, <span class="hkey">C</span> Cut, <span class="hkey">D</span> Dribble, <span class="hkey">P</span> Pass, <span class="hkey">T</span> Shoot, <span class="hkey">S</span> Screen, <span class="hkey">H</span> Handoff, <span class="hkey">E</span> Erase, <span class="hkey">B</span> Ball, <span class="hkey">Space</span> Play, <span class="hkey">←</span> <span class="hkey">→</span> change frame, <span class="hkey">Ctrl+Z</span> Undo.</p>
+</article>
+
+<article class="htopic" id="h-frames"><h2>Frames and animation</h2>
+<p>A play is a series of frames, like pages in a flip book. Each frame shows where everyone is at one moment.</p>
+<ul>
+<li>Press <b>+</b> in the Frames row to add a frame. Players start the new frame at the end of their lines from the one before.</li>
+<li>Click a frame number to work on that frame. Give it a <b>Frame name</b> and a <b>Description</b>, such as "5 sets a flare screen for 2".</li>
+<li><b>Delete frame</b> removes the current frame. <b>Clear lines in this frame</b> removes its lines but keeps the players.</li>
+<li><b>All frames</b> shows every frame together.</li>
+<li><b>Play</b> animates the play, moving players along their lines from frame to frame. Press it again to stop.</li>
+</ul>
+</article>
+
+<article class="htopic" id="h-save"><h2>Saving, tagging and exporting a drawing</h2>
+<ul>
+<li>Name the drawing at the top, then press <b>Save as Play</b> or <b>Save as Drill</b>. A drawing lives in one library only: saving a drill as a play (or the reverse) moves it.</li>
+<li>When you open a saved play and change it, save it again to update it. <b>Save as copy</b> keeps the original and stores your changes as a new one.</li>
+<li><b>Tags</b>: under the description, type a tag and press Enter or a comma. Add as many as you like. You can then filter by tag in the libraries.</li>
+<li><b>New Drawing</b> starts again. <b>Delete Drawing</b> removes the one you are on.</li>
+<li><b>Save JPG</b> and <b>Print / PDF</b> at the top export what is on the court. <b>Frames across</b> sets how many frames sit side by side on each page or image.</li>
+</ul>
+</article>
+
+<article class="htopic" id="h-lib"><h2>Play Library and Drill Library</h2>
+<p>Plays are the sets you run in games. Drills are for practice. Both libraries work the same way.</p>
+<ul>
+<li><b>Open</b> a play by clicking its name. It loads into the Builder.</li>
+<li><b>Search</b> by name or tag, or click a tag above the list to filter.</li>
+<li><b>View:</b> the two buttons beside the search box switch between tiles (with pictures) and a compact list.</li>
+<li><b>Sort:</b> use the <b>Sort by</b> box, or in list view click a column heading (Name, Details, Tags, Saved). Click again to reverse. The small triangles show you can click. Your choice is remembered on that device.</li>
+<li><b>+ Playbook</b> (plays only) adds a play to a playbook. Choose the playbook and section, or create a new one.</li>
+<li><b>Copy as Drill / Copy as Play</b> saves a copy in the other library and leaves the original.</li>
+<li><b>Delete</b>: press once, then press again on <b>Delete?</b> to confirm.</li>
+<li><b>Import file…</b> adds plays (or drills) from a Playboard file. <b>Export this library</b> saves them all in one file.</li>
+</ul>
+</article>
+
+<article class="htopic" id="h-books"><h2>Playbooks</h2>
+<p>A playbook is a printable collection of your plays, grouped into sections (for example Offence, BLOB, SLOB).</p>
+<ol>
+<li>Open <b>Playbooks</b> and press <b>New playbook</b>.</li>
+<li>Give it a title, then add the team, competition and a logo if you like. The logo appears on the cover page of the PDF (<b>Upload logo…</b>, then <b>Change logo…</b> or <b>Remove logo</b> later).</li>
+<li>Add sections. In each, press <b>Add plays…</b>, tick the plays to include and add them.</li>
+<li>Use the arrows beside each play to reorder it, and the ✕ to remove it from the playbook (it stays in your library). Press <b>Done</b> when finished.</li>
+</ol>
+<p>A play can only appear once in a playbook. You can also add a play from the Play Library with <b>+ Playbook</b>. Inside the playbook, <b>Frames across</b> sets how many frames sit side by side on each page, and <b>Save as PDF</b> makes a PDF with a cover page, a contents page and page numbers. The <b>PDF</b> button on the Playbooks page does the same. Use the tile / list buttons and <b>Sort by</b> to arrange your playbooks.</p>
+</article>
+
+<article class="htopic" id="h-plan"><h2>Training Plan Builder</h2>
+<p>Use this to plan a practice session.</p>
+<h3>The header</h3>
+<p>Fill in the team, competition, session number, date, day, start and end time, location, session focus and training habits. Add a logo with <b>Add logo</b>. Once a logo is in, <b>Replace</b> and <b>Remove</b> appear under it, and you can drag its corner to resize it.</p>
+<h3>Sections and drills</h3>
+<ul>
+<li>Each section has a coloured heading with a name you can type (for example Warm-up, Skills, Game play).</li>
+<li>Use the <b>↑</b> and <b>↓</b> arrows on a section to move it up or down. You can also drag it by the dots on the left. The Reflection section stays at the end.</li>
+<li><b>Clear</b> empties a section's drills. The small arrow collapses it, and <b>×</b> removes it. <b>+ Add section</b> adds another.</li>
+<li>In each section press <b>+ Add drill</b>, then enter the minutes, drill name and coaching notes. Playboard works out the start time of each drill from the session start time. The <b>Session time</b> bar compares your drill minutes with the time you have.</li>
+<li><b>+ Add diagram</b> adds an image under a drill. Drag an image in or tap to choose one.</li>
+<li><b>+ Insert drill from library</b> copies a drill from your Drill Library into this drill, adding its frames as small pictures.</li>
+</ul>
+<h3>Saving and printing</h3>
+<p>On the right, <b>Save Training Plan</b> saves it (the button says <b>Update Training Plan</b> when you are editing a saved one). <b>Save as Copy</b> stores a new version, <b>New Training Plan</b> starts a fresh one, and <b>Clear All</b> clears the page. <b>Theme</b> changes the colours. <b>Print / Save PDF</b> prints it, keeping each section on a single page where it fits.</p>
+</article>
+
+<article class="htopic" id="h-plans"><h2>Training Plans</h2>
+<p>Saved training plans appear here, grouped by team and competition.</p>
+<ul>
+<li><b>Open</b> a plan to keep editing it.</li>
+<li><b>Combined PDF</b> (on each group) puts every plan in the group into one document, with a cover page showing the team, competition and logo, in date order.</li>
+<li><b>PDF</b> on a plan saves just that plan. <b>Download File</b> offers a Playboard file or a PDF. <b>Backup</b> saves a file for that plan only.</li>
+<li>The search box, tiles / list buttons and sorting work as in the libraries. Sort by sets the order inside each group.</li>
+</ul>
+</article>
+
+<article class="htopic" id="h-share"><h2>Sharing with other coaches</h2>
+<h3>Share Online</h3>
+<p>Press <b>Share Online</b> on a play, drill, playbook or training plan, then enter the email address of another approved Playboard coach. They get their own editable copy in their library, marked as shared with them. You keep yours. A shared playbook comes with its plays.</p>
+<h3>Download File</h3>
+<p><b>Download File</b> offers two choices:</p>
+<ul>
+<li><b>Playboard file</b>: a file you can send to anyone with a Playboard account. They add it with <b>Import file…</b>.</li>
+<li><b>PDF</b>: saves a PDF straight to your device. The pages are pictures, so the text can't be selected.</li>
+</ul>
+<h3>Importing</h3>
+<p><b>Import file…</b> adds items from a Playboard file. It never overwrites what you have: if an item differs, it adds a copy. To import a playbook, import its plays first.</p>
+</article>
+
+<article class="htopic" id="h-print"><h2>Printing and PDFs</h2>
+<ul>
+<li><b>Print / PDF</b> (Builder) and <b>Print / Save PDF</b> (Training Plan Builder) open your device's print window. Choose <b>Save as PDF</b> there to keep a file.</li>
+<li><b>Download File, then PDF</b> saves a PDF directly with no print window.</li>
+<li><b>Export…, then PDF</b> and the playbook <b>PDF</b> button open the print window.</li>
+<li>In the Builder, <b>Frames across</b> controls how many frames fit side by side on a page.</li>
+<li>Training plan printing keeps each section on one page. Only a section longer than a page by itself continues onto the next.</li>
+<li>If printing is blocked, try the Download File PDF option, or open Playboard in your normal browser.</li>
+</ul>
+</article>
+
+<article class="htopic" id="h-backup"><h2>Backup and unsaved work</h2>
+<ul>
+<li><b>Backup, then Export everything</b> downloads one file of all your plays, drills, training plans and playbooks. Keep it somewhere safe. <b>Import a backup file…</b> adds everything in such a file to your account.</li>
+<li>While you work, Playboard keeps a draft of anything you have not saved yet (the drawing and the training plan) about every 30 seconds on this device. If the page closes or something goes wrong, the next time you sign in you are offered <b>Restore draft</b> or <b>Discard draft</b>.</li>
+<li>Signing out clears drafts on that device, so save before you sign out.</li>
+</ul>
+</article>
+
+<article class="htopic" id="h-fix"><h2>Troubleshooting</h2>
+<ul>
+<li><b>"Waiting for approval"</b>: your account is set up but the owner has not approved it yet. You will get in as soon as they do.</li>
+<li><b>An "Update available" bar appears</b>: a newer version of Playboard has been published. Press <b>Reload</b>. Your saved work is not affected, and anything unsaved is offered back as a draft. <b>Later</b> hides the bar for now.</li>
+<li><b>You see an old version</b>: refresh the page. If that doesn't help, clear the site's data for Playboard in your browser settings, or open it in a private window.</li>
+<li><b>Work is missing on another device</b>: check the Saved label on the first device says <b>Saved</b>, then refresh the other one.</li>
+<li><b>"Not saved. Tap to retry"</b>: check your internet connection, then tap the label.</li>
+<li><b>A button seems to do nothing</b>: refresh the page. Your work is kept as a draft.</li>
+</ul>
+</article>
+
+<article class="htopic" id="h-owner" data-owner hidden><h2>For the owner: approving coaches</h2>
+<p>Only you can see this topic and the <b>Coaches</b> page.</p>
+<ul>
+<li>New coaches create an account and confirm their email. They then appear on the <b>Coaches</b> page as pending. The number beside <b>Coaches</b> in the menu shows how many are waiting. There is no automatic notification, so check the page now and then.</li>
+<li>Press <b>Approve</b> to let a coach in. Press <b>Block</b> to cut off their access straight away. A blocked coach can be approved again.</li>
+<li>Nothing a coach saves is visible to other coaches unless they share it.</li>
+</ul>
+</article>
+
+      </div>
     </div></section>
 
     <section class="page" id="viewCoaches" hidden aria-label="Coaches"><div class="inner">
@@ -4085,7 +4282,7 @@ $('#dpList').addEventListener('change', e => { const c = e.target.closest('.dpbo
 $('#dpInsert').addEventListener('click', insertDrills);
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && !$('#drillPick').hidden) $('#drillPick').hidden = true; });
 
-const VIEWS = {builder: '#viewBuilder', plays: '#viewPlays', drills: '#viewDrills', playbooks: '#viewBooks', session: '#viewSession', sessions: '#viewSessions', backup: '#viewBackup', coaches: '#viewCoaches'};
+const VIEWS = {builder: '#viewBuilder', plays: '#viewPlays', drills: '#viewDrills', playbooks: '#viewBooks', session: '#viewSession', sessions: '#viewSessions', backup: '#viewBackup', help: '#viewHelp', coaches: '#viewCoaches'};
 function setView(v){
   if (!VIEWS[v]) v = 'builder';
   stopPlay(); xmenu = null; armed = null;
@@ -4384,6 +4581,7 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape' && !$('#share
 function updateCoachesBtn(){
   const b = $('#coachesBtn'); if (!b) return;
   b.hidden = !cloud.isOwner; b.textContent = 'Coaches' + (cloud.pending ? ` (${cloud.pending})` : '');
+  $$('#helpBody [data-owner]').forEach(e => { e.hidden = !cloud.isOwner; }); buildHelpToc();
 }
 async function refreshPending(){
   try { const s = await dcol('users').get(); cloud.pending = s.docs.filter(d => (d.data() || {}).status === 'pending').length; updateCoachesBtn(); } catch(e){}
@@ -4629,8 +4827,40 @@ $('#abForm').addEventListener('submit', e => {
   toast(`Added “${nm}” to ${bk.title || 'the playbook'}, section ${sec.name || 'Untitled section'}.`);
 });
 
+/* ---------- help (ver 18) ---------- */
+function buildHelpToc(){
+  const toc = $('#helpToc'); if (!toc) return;
+  toc.innerHTML = [...document.querySelectorAll('#helpBody .htopic')].filter(t => !t.hidden).map(t => `<button type="button" data-h="${t.id}">${esc(t.querySelector('h2').textContent)}</button>`).join('');
+  helpFilter();
+}
+function helpFilter(){
+  const words = $('#helpSearch').value.toLowerCase().split(/\s+/).filter(Boolean);
+  let shown = 0;
+  document.querySelectorAll('#helpBody .htopic').forEach(t => {
+    const hit = !words.length || words.every(w => t.textContent.toLowerCase().includes(w));
+    t.classList.toggle('hmiss', !hit); if (hit && !t.hidden) shown++;
+    const b = document.querySelector(`#helpToc [data-h="${t.id}"]`); if (b) b.classList.toggle('hmiss', !hit);
+  });
+  $('#helpNone').hidden = shown > 0;
+}
+$('#helpSearch').addEventListener('input', helpFilter);
+$('#helpToc').addEventListener('click', e => {
+  const b = e.target.closest('button[data-h]'); if (!b) return;
+  $('#helpSearch').value = ''; helpFilter();
+  const t = document.getElementById(b.dataset.h); if (t) t.scrollIntoView({behavior: 'smooth', block: 'start'});
+});
+$('#helpPrint').addEventListener('click', () => {
+  const clone = $('#helpBody').cloneNode(true);
+  clone.querySelectorAll('[hidden]').forEach(x => x.remove()); clone.querySelectorAll('.hmiss').forEach(x => x.classList.remove('hmiss'));
+  const pv = $('#printView'); pv.className = 'helpdoc';
+  pv.innerHTML = '<h1>Playboard user guide</h1><p class="hsub">Basketball play designer for coaches</p>' + clone.innerHTML;
+  printReady = true;
+  try { window.print(); } catch(e){ printReady = false; toast('Printing is blocked here. Open Playboard in your normal browser to print or save a PDF.'); }
+});
+buildHelpToc();
+
 /* ---------- update notice (ver 15) ---------- */
-const APP_VER = 17;
+const APP_VER = 18;
 let updShown = false, updDismissed = 0;
 async function checkUpdate(){
   if (updShown || document.visibilityState === 'hidden' || !/^https?:$/.test(location.protocol)) return;
